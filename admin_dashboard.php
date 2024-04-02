@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 session_start();
 
 // Check if user is logged in and has admin role, else redirect to login page
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'ADMIN') {
+    header("Location: logout.php");
     exit();
 }
 
