@@ -220,13 +220,14 @@ if ($user_result && $user_result->num_rows > 0) {
     </style>
 </head>
 <body>
+    
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
+            <img src="../dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
-                <a href="logout.php">Logout</a>
+                <a href="../logout.php">Logout</a>
             </div>
         </div>
     </div>
@@ -245,7 +246,7 @@ if ($user_result && $user_result->num_rows > 0) {
 
     <div id="content">
     <h2>Add a Book</h2>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         
         <label for="">Book Name:</label>
         <input type="text" name="name" required>
@@ -259,31 +260,47 @@ if ($user_result && $user_result->num_rows > 0) {
         <label for="">Type of Publication:</label>
         <input type="text" name="type_of_publication" required>
 
+        <label for="bookFile">Upload Book File:</label>
+        <input type="file" id="bookFile" name="bookFile" accept=".pdf, .doc, .docx">
+
         <input type="submit" name="submit" value="Add Book">
     </form>
 </div>
 
 <?php
-    if(isset($_POST['submit'])) {
-        $name = $_POST['name'];
-        $author = $_POST['author'];
-        $year = $_POST['year'];
-        $type_of_publication = $_POST['type_of_publication'];
+    // Database credentials
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "file_inventory";
 
-        $query = "INSERT INTO books VALUES('', '$name', '$author', '$year', '$type_of_publication')";
-        mysqli_query($conn, $query);
-        if($result) {
-            echo "
-            <script>
-                alert('Book Added Successfully.');
-            </script>
-            ";
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $database);
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    if(isset($_POST['submit'])) {
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        $author = mysqli_real_escape_string($conn, $_POST['author']);
+        $year = mysqli_real_escape_string($conn, $_POST['year']);
+        $type_of_publication = mysqli_real_escape_string($conn, $_POST['type_of_publication']);
+
+        $file_name = $_FILES['bookFile']['name']; // Get the name of the uploaded file
+        $file_tmp = $_FILES['bookFile']['tmp_name']; // Get the temporary location of the uploaded file
+        $file_destination = "../uploads/" . $file_name; 
+        // var_dump($file_tmp, $file_destination); // Uncomment for debugging
+        echo "Temporary file: " . $file_tmp;
+        if (move_uploaded_file($file_tmp, $file_destination)) {
+            $query = "INSERT INTO books (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
+            echo "Query: " . $query; // Uncomment for debugging
+            if (mysqli_query($conn, $query)) {
+                echo "Record inserted successfully";
+            } else {
+                echo "Error: " . $query . "<br>" . mysqli_error($conn);
+            }
         } else {
-            echo "
-            <script>
-                alert('Failed to add book. Error: " . mysqli_error($conn) . "');
-            </script>
-            ";
+            echo "File upload failed";
         }
     }
 ?>

@@ -38,21 +38,99 @@ if ($user_result && $user_result->num_rows > 0) {
     // Handle error if user data is not found
     $username = "Unknown";
 }
-?>
 
+// Initialize variables for form submission
+$fileID = $fileName = $fileType = $fileSize = $uploadDate = $uploadedBy = $description = "";
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $fileName = $_POST['fileName'];
+    $fileType = $_POST['fileType'];
+    $fileSize = $_POST['fileSize'];
+    $uploadDate = date("Y-m-d"); // Set current date as upload date
+    $uploadedBy = $_SESSION['username'];
+    $description = $_POST['description'];
+
+    // Insert file information into database
+    $query = "INSERT INTO Files (FileName, FileType, FileSize, UploadDate, UploadedBy, Description) VALUES ('$fileName', '$fileType', $fileSize, '$uploadDate', '$uploadedBy', '$description')";
+    if (mysqli_query($conn, $query)) {
+        echo "File uploaded successfully.";
+    } else {
+        echo "Error uploading file: " . mysqli_error($conn);
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Books</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Employee Dashboard</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
         }
+        /* Desktop styles */
+        @media only screen and (min-width: 768px) {
+            #sidebar {
+                width: 220px;
+                position: fixed;
+                top: 40px;
+                bottom: 0;
+            }
+
+            #content-container {
+                margin-left: 240px;
+                margin-top: 70px;
+            }
+
+            .summary-box {
+                width: auto;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                float: left;
+            }
+        }
+
+        /* Mobile styles */
+        @media only screen and (max-width: 767px) {
+            #sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            #content-container {
+                margin-left: 0;
+                margin-top: 110px;
+            }
+
+            .summary-box {
+                width: auto;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                float: none;
+            }
+        }
+
+        /* Common styles */
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('BgV2.png');
+            background-size: cover;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        #topbar {
+            background-color: #0f5298;
         #topbar {
             background-color: #0f5298; /* Blue color */
             color: #fff;
@@ -62,6 +140,17 @@ if ($user_result && $user_result->num_rows > 0) {
             top: 0;
             left: 0;
             width: 100%;
+            z-index: 1000;
+        }
+
+        #topbar .dropdown {
+            position: absolute;
+            top: 50%;
+            left: 90%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
             z-index: 1000; /* Higher z-index to keep it on top */
         }
         #topbar h2{
@@ -82,6 +171,13 @@ if ($user_result && $user_result->num_rows > 0) {
             min-width: 150px;
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
             z-index: 1000;
+            color: #000000;
+        }
+
+        #topbar .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
             color:#000000;
         }
         #topbar .dropdown:hover .dropdown-content {
@@ -93,6 +189,18 @@ if ($user_result && $user_result->num_rows > 0) {
             text-decoration: none;
             display: block;
         }
+
+        #topbar .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        #sidebar {
+            background-color: #2565AE;
+            color: #fff;
+            padding: 20px;
+            z-index: 999;
+        }
+
         #topbar .dropdown-content a:hover {
             background-color: #f1f1f1;
         }
@@ -111,6 +219,7 @@ if ($user_result && $user_result->num_rows > 0) {
             margin-bottom: 20px;
             text-align: center;
         }
+
         #sidebar p strong {
             color: #fff; /* Set text color to white */
         }
@@ -119,6 +228,11 @@ if ($user_result && $user_result->num_rows > 0) {
             padding: 0;
             margin: 0;
         }
+
+        #sidebar ul li {
+            margin-bottom: 10px;
+        }
+
         #sidebar ul li {
             margin-bottom: 10px;
         }
@@ -126,6 +240,11 @@ if ($user_result && $user_result->num_rows > 0) {
             color: #fff;
             text-decoration: none;
             display: block;
+            padding: 5px 0;
+        }
+
+        #sidebar-content {
+            margin-top: 50px;
             padding: 5px 0; /* Add padding to the links */
         }
         #sidebar-content {
@@ -133,35 +252,12 @@ if ($user_result && $user_result->num_rows > 0) {
         }
 
         #content {
-        margin-top: 65px; /* Adjusted to accommodate topbar */
-        margin-left: 220px; /* Adjusted to accommodate sidebar width */
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        }
-
-        #book-list {
-            margin-top: 20px; /* Add some space between topbar and book list */
-            width: calc(100% - 220px); /* Adjusted width to fit content next to sidebar */
-            overflow-x: auto; /* Enable horizontal scrolling if needed */
-        }
-
-        #book-list table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        #book-list th,
-        #book-list td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        #book-list th {
-            background-color: #f2f2f2;
-            color: #333;
+            margin-left: 220px; /* Adjusted to accommodate sidebar width */
+            padding: 20px;
+            display: center;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
         }
 
         h2 {
@@ -175,6 +271,7 @@ if ($user_result && $user_result->num_rows > 0) {
         form {
             background-color: #fff;
             padding: 20px;
+            border-radius: 10px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 400px; /* Set form width */
@@ -219,60 +316,26 @@ if ($user_result && $user_result->num_rows > 0) {
     </style>
 </head>
 <body>
+
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
+            <img src="../dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
-                <a href="logout.php">Logout</a>
+                <a href="../logout.php">Logout</a>
             </div>
         </div>
     </div>
 
     <div id="sidebar">
         <div id="sidebar-content">
-            <p><strong>Dashboard</strong></p>
-            <ul>
-                <li><a href="#">Profile</a></li>
-                <li><a href="add_book.php">Add a Book</a></li>
-                <li><a href="book_list.php">View Books</a></li>
-                <!-- Add more sidebar items as needed -->
-            </ul>
-        </div>
+        <p><strong>Dashboard</strong></p>
+        <ul>
+            <li><a href="#">Profile</a></li>
+            <li><a href="employee_dashboard.php">Upload Files</a></li>
+            <li><a href="book_list.php">View Books</a></li>
+        </ul>
     </div>
-
-    <div id="content">
-    <h2>List of Books</h2>
-        <?php
-        $res = mysqli_query($conn, "SELECT * FROM `books`");
-
-        echo "<table class='table table-bordered table-hover'>";
-        echo "<tr style='background-color: white;'>";
-        echo "<th>ID</th>";
-        echo "<th>Book Name</th>";
-        echo "<th>Author</th>";
-        echo "<th>Year</th>";
-        echo "<th>Type of Publication</th>";
-        echo "<th>Action</th>";
-        echo "</tr>";
-
-        while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr>";
-            echo "<td>" . $row['bid'] . "</td>";
-            echo "<td>" . $row['name'] . "</td>";
-            echo "<td>" . $row['author'] . "</td>";
-            echo "<td>" . $row['year'] . "</td>";
-            echo "<td>" . $row['type_of_publication'] . "</td>";
-            echo "<td>";
-            echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
-            echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        ?>
-    </div>
-  
 </body>
-</html>   
+</html>
