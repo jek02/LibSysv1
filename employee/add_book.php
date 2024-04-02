@@ -3,7 +3,7 @@
 session_start();
 
 // Check if user is logged in and has employee role, else redirect to login page
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'EMPLOYEE') {
     header("Location: login.php");
     exit();
 }
