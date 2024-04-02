@@ -152,34 +152,30 @@ body {
 }
 
 #content-container {
-    position: center;
     margin-top: 120px;
     padding: 20px;
 }
 
-/* External CSS for styling manage users page */
-
-/* Container for user details */
 .user-details {
     display: flex;
-    flex-direction: column;
-    gap: 10px; /* Gap between grid items */
+    gap: 10px;
     padding: 10px;
     border: 1px solid #ccc;
-    margin-bottom: 10px;
     background-color: #f9f9f9; /* Background color */
 }
 
-/* Style for headings */
-.user-details h3 {
-    font-size: 18px;
-    margin-bottom: 5px;
+.column {
+    flex: 1; /* Each column occupies equal space initially */
+    min-width: 0; /* Allow columns to shrink beyond their content width */
+    border-right: 1px solid #ccc; /* Add vertical border between columns */
+    padding-right: 10px; /* Add padding to separate columns visually */
 }
 
-/* Style for user details */
-.user-details p {
+.column:last-child {
+    border-right: none; /* Remove border from last column */
+}
+
+.column p {
     margin: 0;
     line-height: 1.5;
 }
-
-

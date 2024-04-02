@@ -82,21 +82,44 @@ $conn->close();
 <div id="content-container">
     <h2>Registered Users</h2>
     <div class="user-details">
+    <div class="user-details">
+    <div class="column">
+        <p><strong>Username:</strong></p>
         <?php
-        // Check if users are fetched successfully
+        // Display usernames vertically
         if ($users_result && $users_result->num_rows > 0) {
-            // Display the summary details of users
             while ($row = $users_result->fetch_assoc()) {
-                echo "<div class='user-details'>";
-                echo "<p><strong>Username:</strong> " . $row['username'] . "</p>";
-                echo "<p><strong>Password:</strong> " . $row['password'] . "</p>";
-                echo "<p><strong>Role:</strong> " . $row['role'] . "</p>";
-                echo "</div>";
+                echo "<p>" . $row['username'] . "</p>";
             }
-        } else {
-            echo "<p>No users found</p>";
         }
         ?>
+    </div>
+    <div class="column">
+        <p><strong>Password:</strong></p>
+        <?php
+        // Display passwords vertically
+        if ($users_result && $users_result->num_rows > 0) {
+            $users_result->data_seek(0); // Reset pointer to first row
+            while ($row = $users_result->fetch_assoc()) {
+                echo "<p>" . $row['password'] . "</p>";
+            }
+        }
+        ?>
+    </div>
+    <div class="column">
+        <p><strong>Role:</strong></p>
+        <?php
+        // Display roles vertically
+        if ($users_result && $users_result->num_rows > 0) {
+            $users_result->data_seek(0); // Reset pointer to first row
+            while ($row = $users_result->fetch_assoc()) {
+                echo "<p>" . $row['role'] . "</p>";
+            }
+        }
+        ?>
+    </div>
+</div>
+
     </div>
 </div>
 
