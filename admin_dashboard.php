@@ -79,7 +79,7 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 
     <div id="sidebar">
     <div id="sidebar-content">
-    <p><strong>Dashboard</strong></p>
+    <p><strong>DASHBOARD</strong></p>
         <ul style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
             <li><a href="manage_files.php" class="sidebar-link" >Manage Files</a></li>
             <li style="margin-top: 20px;"><a href="manage_users.php" class="sidebar-link" >Manage Users</a></li>
