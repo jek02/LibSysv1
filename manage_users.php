@@ -1,4 +1,7 @@
-<?php
+<?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Start the session
 session_start();
 
@@ -34,12 +37,6 @@ if ($user_result && $user_result->num_rows > 0) {
     $username = "Unknown";
 }
 
-// Query to fetch all users
-$users_query = "SELECT * FROM users";
-$users_result = $conn->query($users_query);
-
-// Close the database connection
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -49,63 +46,65 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/manage_users.css">
+    <link rel="stylesheet" href="css/manage_users.css"> <!-- Include the CSS file -->
+    
 </head>
 <body>
 
 <div id="background-container"></div>
 
-    <div id="topbar">
-        <h2>PSA-CAR SOCD LibSys</h2>
-        <div class="dropdown">
-            <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
-            <div class="dropdown-content">
-                <p>Logged in as: <?php echo $username; ?></p>
-                <a href="logout.php">Logout</a>
-            </div>
+<div id="topbar">
+    <h2>PSA-CAR SOCD LibSys</h2>
+    <div class="dropdown">
+        <img src="dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
+        <div class="dropdown-content">
+            <p>Logged in as: <?php echo $username; ?></p>
+            <a href="logout.php">Logout</a>
         </div>
     </div>
+</div>
 
-    <div id="sidebar">
-        <div id="sidebar-content">
-            <ul>
-                <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
-                <li><a href="manage_files.php" class="sidebar-link" >Manage Files</a></li>
-            </ul>
-        </div>
+<div id="sidebar">
+    <div id="sidebar-content">
+        <ul style="margin-top: 50px;">
+            <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
+            <li style="margin-top: 20px;"> <a href="manage_files.php" class="sidebar-link">Manage Files</a></li>
+            <li style="margin-top: 20px;"> <a href="manage_users.php" class="sidebar-link">Manage Users</a></li>
+            <!-- Add more options here -->
+        </ul>
     </div>
+</div>
 
-    <div id="content">
-        <h2>List of Users</h2>
+<div id="content">
+    <h2>List of Users</h2>
         <?php
-        if ($users_result && $users_result->num_rows > 0) {
-            echo "<table class='table table-bordered table-hover'>";
+        $res = mysqli_query($conn, "SELECT * FROM `users`");
+
+        echo "<table class='table table-bordered table-hover'>";
+        echo "<tr style='background-color: white;'>";
+        echo "<th>ID</th>";
+        echo "<th>Username</th>";
+        echo "<th>Password</th>";
+        echo "<th>role</th>";
+        echo "<th>Action</th>";
+        echo "</tr>";
+
+        while ($row = mysqli_fetch_assoc($res)) {
             echo "<tr style='background-color: white;'>";
-            echo "<th>ID</th>";
-            echo "<th>Username</th>";
-            echo "<th>Password</th>";
-            echo "<th>Role</th>";
-            echo "<th>Action</th>"; // New column for Action
+            echo "<td>" . $row['user_id'] . "</td>";
+            echo "<td>" . $row['username'] . "</td>";
+            echo "<td>" . $row['password'] . "</td>";
+            echo "<td>" . $row['role'] . "</td>";
+            echo "<td>";
+            echo "<a href='' class='btn btn-primary mr-2'>Edit</a>";
+            echo "<span class='separator'>&nbsp;&nbsp;</span>";
+            echo "<a href='' class='btn btn-success'>Delete</a>";
+            echo "</td>";
             echo "</tr>";
-            
-            while ($row = $users_result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row['user_id'] . "</td>";
-                echo "<td>" . $row['username'] . "</td>";
-                echo "<td>" . $row['password'] . "</td>";
-                echo "<td>" . $row['role'] . "</td>";
-                echo "<td>";
-                echo "<a href='edit_users.php?id=" . $row['user_id'] . "' class='btn btn-primary mr-2'>Edit</a>"; // Added margin class "mr-2"
-                echo "<a href='delete_user.php?id=" . $row['user_id'] . "' class='btn btn-danger'>Delete</a>";
-                echo "</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "No users found.";
         }
+        echo "</table>";
         ?>
     </div>
-  
+
 </body>
 </html>
