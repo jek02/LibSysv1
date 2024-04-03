@@ -64,6 +64,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <div id="sidebar-content">
             <ul>
                 <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
+                <li><a href="manage_users.php" class="sidebar-link" >Manage Users</a></li>
             </ul>
         </div>
     </div>

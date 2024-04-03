@@ -70,6 +70,7 @@ $conn->close();
         <div id="sidebar-content">
             <ul>
                 <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
+                <li><a href="manage_files.php" class="sidebar-link" >Manage Files</a></li>
             </ul>
         </div>
     </div>
@@ -84,6 +85,7 @@ $conn->close();
             echo "<th>Username</th>";
             echo "<th>Password</th>";
             echo "<th>Role</th>";
+            echo "<th>Action</th>"; // New column for Action
             echo "</tr>";
             
             while ($row = $users_result->fetch_assoc()) {
@@ -92,6 +94,10 @@ $conn->close();
                 echo "<td>" . $row['username'] . "</td>";
                 echo "<td>" . $row['password'] . "</td>";
                 echo "<td>" . $row['role'] . "</td>";
+                echo "<td>";
+                echo "<a href='edit_users.php?id=" . $row['user_id'] . "' class='btn btn-primary mr-2'>Edit</a>"; // Added margin class "mr-2"
+                echo "<a href='delete_user.php?id=" . $row['user_id'] . "' class='btn btn-danger'>Delete</a>";
+                echo "</td>";
                 echo "</tr>";
             }
             echo "</table>";
