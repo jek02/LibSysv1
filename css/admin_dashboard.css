@@ -63,7 +63,7 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 17px;
+    padding: 20px;
     text-align: center;
     position: fixed;
     top: 0;
@@ -75,6 +75,7 @@ body {
 #topbar h2 {
     font-weight: normal; /* Add this rule to set the font weight to normal */
     font-size: 30px; /* Add this rule to increase the font size */
+    margin-top: 15px;
 }
 #topbar .dropdown-content {
     display: none;

@@ -62,7 +62,11 @@ body {
     width: 100%;
     z-index: 1000;
 }
-
+#topbar h2 {
+    font-weight: normal; /* Add this rule to set the font weight to normal */
+    font-size: 30px; /* Add this rule to increase the font size */
+    margin-top: 15px;
+}
 #topbar .dropdown {
     position: absolute;
     top: 50%;
