@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 02, 2024 at 10:06 AM
+-- Generation Time: Apr 03, 2024 at 08:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `books`
+-- Table structure for table `files`
 --
 
-CREATE TABLE `books` (
+CREATE TABLE `files` (
   `bid` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `author` varchar(100) NOT NULL,
@@ -37,10 +37,10 @@ CREATE TABLE `books` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `books`
+-- Dumping data for table `files`
 --
 
-INSERT INTO `books` (`bid`, `name`, `author`, `year`, `type_of_publication`, `files`) VALUES
+INSERT INTO `files` (`bid`, `name`, `author`, `year`, `type_of_publication`, `files`) VALUES
 (1, 'PSA Annual book', 'EMZ with a \'Z\'', '2022', 'newsletter', ''),
 (2, 'PSA monthly report', 'EMS with \'S\'', '2023', 'newsletter', ''),
 (3, 'quarterly report', 'Sir', '2012', 'Report', ''),
@@ -52,23 +52,9 @@ INSERT INTO `books` (`bid`, `name`, `author`, `year`, `type_of_publication`, `fi
 (9, 'test', 'test21', '2133', 'report', 'uploads/pdfcoffee.com_bryan-ferryamproxy-music-pdf-free.pdf'),
 (10, 'test', 'test21', '2133', 'report', 'uploads/pdfcoffee.com_bryan-ferryamproxy-music-pdf-free.pdf'),
 (11, 'Annuaalll reportt', 'Jek', '21311', 'Report', 'uploads/2IDs.pdf'),
-(12, 'test24', 'test24', '21412', 'report letter', '../uploads/picture-a-captivating-scene-of-a-tranquil-lake-at-sunset-ai-generative-photo.jpg');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Files`
---
-
-CREATE TABLE `Files` (
-  `FileID` int(11) NOT NULL,
-  `FileName` varchar(255) NOT NULL,
-  `FileType` varchar(50) DEFAULT NULL,
-  `FileSize` int(11) DEFAULT NULL,
-  `UploadDate` date DEFAULT NULL,
-  `UploadedBy` varchar(100) DEFAULT NULL,
-  `Description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(12, 'test24', 'test24', '21412', 'report letter', '../uploads/picture-a-captivating-scene-of-a-tranquil-lake-at-sunset-ai-generative-photo.jpg'),
+(13, 'sd', 'tyk', '2512', 'newsletters', '../uploads/pdfcoffee.com_bryan-ferryamproxy-music-pdf-free.pdf'),
+(14, 'asd', 'asd', '2134', 'report', '../uploads/pdfcoffee.com_bryan-ferryamproxy-music-pdf-free.pdf');
 
 -- --------------------------------------------------------
 
@@ -90,23 +76,18 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`) VALUES
 (1, 'admin', 'socd', 'ADMIN'),
 (2, 'Emz', 'Litlit', 'EMPLOYEE'),
-(3, 'Aeron', 'Bahug', 'EMPLOYEE');
+(3, 'Aeron', 'Bahug', 'EMPLOYEE'),
+(4, 'taylor', 'shake', 'EMPLOYEE');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `books`
+-- Indexes for table `files`
 --
-ALTER TABLE `books`
+ALTER TABLE `files`
   ADD PRIMARY KEY (`bid`);
-
---
--- Indexes for table `Files`
---
-ALTER TABLE `Files`
-  ADD PRIMARY KEY (`FileID`);
 
 --
 -- Indexes for table `users`
@@ -119,22 +100,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `books`
+-- AUTO_INCREMENT for table `files`
 --
-ALTER TABLE `books`
-  MODIFY `bid` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `Files`
---
-ALTER TABLE `Files`
-  MODIFY `FileID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `files`
+  MODIFY `bid` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
