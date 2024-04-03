@@ -44,7 +44,7 @@ if ($user_result && $user_result->num_rows > 0) {
 }
 
 // Query to get the count of files
-$file_query = "SELECT COUNT(*) AS file_count FROM Files";
+$file_query = "SELECT COUNT(*) AS file_count FROM files";
 $file_result = $conn->query($file_query);
 $file_count = $file_result->fetch_assoc()['file_count'];
 

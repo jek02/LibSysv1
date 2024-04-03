@@ -112,6 +112,7 @@ body {
     padding: 10px;
     z-index: 999;
     width: 175px;
+    margin-top: 40px;
 }
 
 #sidebar h1 {

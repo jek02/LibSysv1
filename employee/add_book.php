@@ -46,7 +46,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add a Book</title>
+    <title>Add a File</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="add_book.css">
 </head>
@@ -69,18 +69,18 @@ if ($user_result && $user_result->num_rows > 0) {
         <div id="sidebar-content">
             <ul>
                 <li><a href="#" class="sidebar-link" >Profile</a></li>
-                <li><a href="add_book.php" class="sidebar-link" >Add a Book</a></li>
-                <li><a href="book_list.php" class="sidebar-link" >View Books</a></li>
+                <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
+                <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
         </div>
     </div>
 
     <div id="content">
-    <h2>Add a Book</h2>
+    <h2>Add a File</h2>
     <form action="" method="post" enctype="multipart/form-data">
         
-        <label for="">Book Name:</label>
+        <label for="">File Name:</label>
         <input type="text" name="name" required>
         
         <label for="">Author:</label>
@@ -124,7 +124,7 @@ if ($user_result && $user_result->num_rows > 0) {
         // var_dump($file_tmp, $file_destination); // Uncomment for debugging
         echo "Temporary file: " . $file_tmp;
         if (move_uploaded_file($file_tmp, $file_destination)) {
-            $query = "INSERT INTO books (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
+            $query = "INSERT INTO files (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
             echo "Query: " . $query; // Uncomment for debugging
             if (mysqli_query($conn, $query)) {
                 echo "Record inserted successfully";

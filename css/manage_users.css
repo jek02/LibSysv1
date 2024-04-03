@@ -14,9 +14,9 @@ body {
         bottom: 0;
     }
 
-    #content-container {
-        margin-left: 240px;
-        margin-top: 70px;
+    #content {
+        margin-left: 240px; /* Adjusted to accommodate sidebar width */
+        margin-top: 105px; /* Adjusted to accommodate topbar */
     }
 
     .summary-box {
@@ -34,9 +34,9 @@ body {
         position: static;
     }
 
-    #content-container {
+    #content {
         margin-left: 0;
-        margin-top: 110px;
+        margin-top: 145px; /* Adjusted to accommodate topbar */
     }
 
     .summary-box {
@@ -55,7 +55,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('BgV2.png');
+    background-image: url('../css/BgV2.png');
     background-size: cover;
     opacity: 0.5;
     z-index: -1;
@@ -64,7 +64,7 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 33px;
+    padding: 35px;
     text-align: center;
     position: fixed;
     top: 0;
@@ -137,7 +137,7 @@ body {
 }
 
 #sidebar-content {
-    margin-top: 120px;
+    margin-top: 80px;
     margin-left: 15px;
 }
 
@@ -151,31 +151,92 @@ body {
     transform: scale(1.1); /* Scale up the size on hover */
 }
 
-#content-container {
-    margin-top: 120px;
+#content {
     padding: 20px;
-}
-
-.user-details {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 105px; /* Adjusted to accommodate topbar */
+    margin-left: 240px; /* Adjusted to accommodate sidebar width */
+    margin-right: 20px; /* Adjusted to create space between sidebar and content */
+}
+
+
+#content h2 {
+    margin-top: 35px;
+    color: #000000;
+}
+
+#book-list {
+    margin-top: 20px;
+    width: calc(100% - 260px); /* Adjusted width to fit content next to sidebar */
+    overflow-x: auto;
+}
+
+#book-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#book-list th,
+#book-list td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#book-list th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+p {
+    color: #000000;
+    margin-top: 10px;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Set form width */
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="file"],
+input[type="submit"] {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    background-color: #f9f9f9; /* Background color */
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-.column {
-    flex: 1; /* Each column occupies equal space initially */
-    min-width: 0; /* Allow columns to shrink beyond their content width */
-    border-right: 1px solid #ccc; /* Add vertical border between columns */
-    padding-right: 10px; /* Add padding to separate columns visually */
+input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
 }
 
-.column:last-child {
-    border-right: none; /* Remove border from last column */
+input[type="submit"]:hover {
+    background-color: #45a049;
 }
 
-.column p {
-    margin: 0;
-    line-height: 1.5;
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }

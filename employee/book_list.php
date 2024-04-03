@@ -45,7 +45,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Books</title>
+    <title>List of Files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="book_list.css">
 </head>
@@ -68,22 +68,22 @@ if ($user_result && $user_result->num_rows > 0) {
         <div id="sidebar-content">
             <ul>
                 <li><a href="#" class="sidebar-link">Profile</a></li>
-                <li><a href="add_book.php" class="sidebar-link" >Add a Book</a></li>
-                <li><a href="book_list.php" class="sidebar-link" >View Books</a></li>
+                <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
+                <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
         </div>
     </div>
 
     <div id="content">
-        <h2>List of Books</h2>
+        <h2>List of Files</h2>
         <?php
-        $res = mysqli_query($conn, "SELECT * FROM `books`");
+        $res = mysqli_query($conn, "SELECT * FROM `files`");
 
         echo "<table class='table table-bordered table-hover'>";
         echo "<tr style='background-color: white;'>";
         echo "<th>ID</th>";
-        echo "<th>Book Name</th>";
+        echo "<th>File Name</th>";
         echo "<th>Author</th>";
         echo "<th>Year</th>";
         echo "<th>Type of Publication</th>";

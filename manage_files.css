@@ -160,12 +160,10 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
-#content h2{
+#content h2 {
     margin-top: 35px;
     color:#000000;
 }
-
 #book-list {
     margin-top: 20px; /* Add some space between topbar and book list */
     width: calc(100% - 220px); /* Adjusted width to fit content next to sidebar */

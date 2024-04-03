@@ -1,7 +1,4 @@
-<?php 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+<?php
 // Start the session
 session_start();
 
@@ -51,77 +48,58 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
-    <link rel="stylesheet" href="css/manage_users.css"> <!-- Include the CSS file -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/manage_users.css">
 </head>
 <body>
 
 <div id="background-container"></div>
 
-<div id="topbar">
-    <h2>PSA-CAR SOCD LibSys</h2>
-    <div class="dropdown">
-        <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
-        <div class="dropdown-content">
-            <p>Logged in as: <?php echo $username; ?></p>
-            <a href="logout.php">Logout</a>
+    <div id="topbar">
+        <h2>PSA-CAR SOCD LibSys</h2>
+        <div class="dropdown">
+            <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
+            <div class="dropdown-content">
+                <p>Logged in as: <?php echo $username; ?></p>
+                <a href="logout.php">Logout</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="sidebar">
-    <div id="sidebar-content">
-        <ul style="margin-top: 50px;">
-            <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
-            <li style="margin-top: 20px;"> <a href="manage_files.php" class="sidebar-link">Manage Files</a></li>
-            <li style="margin-top: 20px;"> <a href="manage_users.php" class="sidebar-link">Manage Users</a></li>
-            <!-- Add more options here -->
-        </ul>
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <ul>
+                <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
+            </ul>
+        </div>
     </div>
-</div>
 
-<div id="content-container">
-    <h2>Registered Users</h2>
-    <div class="user-details">
-    <div class="user-details">
-    <div class="column">
-        <p><strong>Username:</strong></p>
+    <div id="content">
+        <h2>List of Users</h2>
         <?php
-        // Display usernames vertically
         if ($users_result && $users_result->num_rows > 0) {
+            echo "<table class='table table-bordered table-hover'>";
+            echo "<tr style='background-color: white;'>";
+            echo "<th>ID</th>";
+            echo "<th>Username</th>";
+            echo "<th>Password</th>";
+            echo "<th>Role</th>";
+            echo "</tr>";
+            
             while ($row = $users_result->fetch_assoc()) {
-                echo "<p>" . $row['username'] . "</p>";
+                echo "<tr>";
+                echo "<td>" . $row['user_id'] . "</td>";
+                echo "<td>" . $row['username'] . "</td>";
+                echo "<td>" . $row['password'] . "</td>";
+                echo "<td>" . $row['role'] . "</td>";
+                echo "</tr>";
             }
+            echo "</table>";
+        } else {
+            echo "No users found.";
         }
         ?>
     </div>
-    <div class="column">
-        <p><strong>Password:</strong></p>
-        <?php
-        // Display passwords vertically
-        if ($users_result && $users_result->num_rows > 0) {
-            $users_result->data_seek(0); // Reset pointer to first row
-            while ($row = $users_result->fetch_assoc()) {
-                echo "<p>" . $row['password'] . "</p>";
-            }
-        }
-        ?>
-    </div>
-    <div class="column">
-        <p><strong>Role:</strong></p>
-        <?php
-        // Display roles vertically
-        if ($users_result && $users_result->num_rows > 0) {
-            $users_result->data_seek(0); // Reset pointer to first row
-            while ($row = $users_result->fetch_assoc()) {
-                echo "<p>" . $row['role'] . "</p>";
-            }
-        }
-        ?>
-    </div>
-</div>
-
-    </div>
-</div>
-
+  
 </body>
 </html>
