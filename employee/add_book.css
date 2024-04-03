@@ -152,7 +152,7 @@ body {
 }
 
 #content {
-    margin-top: 120px; /* Adjusted to accommodate topbar */
+    margin-top: 130px; /* Adjusted to accommodate topbar */
     margin-left: 220px; /* Adjusted to accommodate sidebar width */
     padding: 20px;
     display: flex;
