@@ -15,7 +15,7 @@
         $id = $_GET['id'];
         
         // Fetch file information from database
-        $query = "SELECT * FROM `books` WHERE bid = $id";
+        $query = "SELECT * FROM `Files` WHERE bid = $id";
         $result = mysqli_query($conn, $query);
         $row = mysqli_fetch_assoc($result);
         $file_path = $row['files'];

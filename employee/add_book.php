@@ -124,7 +124,7 @@ if ($user_result && $user_result->num_rows > 0) {
         // var_dump($file_tmp, $file_destination); // Uncomment for debugging
         echo "Temporary file: " . $file_tmp;
         if (move_uploaded_file($file_tmp, $file_destination)) {
-            $query = "INSERT INTO files (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
+            $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
             echo "Query: " . $query; // Uncomment for debugging
             if (mysqli_query($conn, $query)) {
                 echo "Record inserted successfully";
