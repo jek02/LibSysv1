@@ -1,4 +1,4 @@
-<?php
+<?php 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -19,8 +19,26 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Get the user ID from the session
+$user_id = $_SESSION['user_id'];
+
+// Query to fetch user information based on user ID
+$user_query = "SELECT username FROM users WHERE user_id = $user_id";
+$user_result = $conn->query($user_query);
+
+// Check if user information is fetched successfully
+if ($user_result && $user_result->num_rows > 0) {
+    // Fetch user data
+    $user_data = $user_result->fetch_assoc();
+    // Get the username
+    $username = $user_data['username'];
+} else {
+    // Handle error if user data is not found
+    $username = "Unknown";
+}
 
 ?>
+
 
 
 
@@ -35,13 +53,16 @@ if ($conn->connect_error) {
     <!-- Add your CSS links and other meta tags here -->
 </head>
 <body>
+
+<div id="background-container"></div>
+
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="../dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
+            <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
-                <a href="../logout.php">Logout</a>
+                <a href="logout.php">Logout</a>
             </div>
         </div>
     </div>
@@ -58,9 +79,9 @@ if ($conn->connect_error) {
     </div>
 
     <div id="content">
-    <h2>List of Books</h2>
+    <h2>List of Files</h2>
         <?php
-        $res = mysqli_query($conn, "SELECT * FROM `books`");
+        $res = mysqli_query($conn, "SELECT * FROM `files`");
 
         echo "<table class='table table-bordered table-hover'>";
         echo "<tr style='background-color: white;'>";
