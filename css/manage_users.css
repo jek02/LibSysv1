@@ -19,12 +19,7 @@ body {
         margin-top: 105px; /* Adjusted to accommodate topbar */
     }
 
-    .summary-box {
-        width: auto;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        float: left;
-    }
+
 }
 
 /* Mobile styles */
@@ -39,12 +34,7 @@ body {
         margin-top: 145px; /* Adjusted to accommodate topbar */
     }
 
-    .summary-box {
-        width: auto;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        float: none;
-    }
+    
 }
 
 

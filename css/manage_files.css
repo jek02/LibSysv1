@@ -19,12 +19,7 @@ body {
         margin-top: 70px;
     }
 
-    .summary-box {
-        width: auto;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        float: left;
-    }
+
 }
 
 /* Mobile styles */
@@ -39,12 +34,7 @@ body {
         margin-top: 110px;
     }
 
-    .summary-box {
-        width: auto;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        float: none;
-    }
+    
 }
 
 
