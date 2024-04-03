@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 session_start();
 
 // Check if user is logged in and has admin role, else redirect to login page
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'ADMIN') {
+    header("Location: logout.php");
     exit();
 }
 
@@ -54,182 +54,13 @@ $user_result = $conn->query($user_query);
 $user_count = $user_result->fetch_assoc()['user_count'];
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <style>
-        /* Common styles */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Desktop styles */
-        @media only screen and (min-width: 768px) {
-            #sidebar {
-                width: 220px;
-                position: fixed;
-                top: 40px;
-                bottom: 0;
-            }
-
-            #content-container {
-                margin-left: 240px;
-                margin-top: 70px;
-            }
-
-            .summary-box {
-                width: auto;
-                margin-right: 20px;
-                margin-bottom: 20px;
-                float: left;
-            }
-        }
-
-        /* Mobile styles */
-        @media only screen and (max-width: 767px) {
-            #sidebar {
-                width: 100%;
-                position: static;
-            }
-
-            #content-container {
-                margin-left: 0;
-                margin-top: 110px;
-            }
-
-            .summary-box {
-                width: auto;
-                margin-right: 20px;
-                margin-bottom: 20px;
-                float: none;
-            }
-        }
-
-        /* Common styles */
-        #background-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('BgV2.png');
-            background-size: cover;
-            opacity: 0.5;
-            z-index: -1;
-        }
-
-        #topbar {
-            background-color: #0f5298;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        #topbar .dropdown {
-            position: absolute;
-            top: 50%;
-            left: 90%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-
-        #topbar .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 150px;
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            z-index: 1000;
-            color: #000000;
-        }
-
-        #topbar .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        #topbar .dropdown-content a {
-            color: black;
-            padding: 10px 10px;
-            text-decoration: none;
-            display: block;
-        }
-
-        #topbar .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        #sidebar {
-            background-color: #2565AE;
-            color: #fff;
-            padding: 20px;
-            z-index: 999;
-        }
-
-        #sidebar h1 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        #sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        #sidebar ul li {
-            margin-bottom: 10px;
-        }
-
-        #sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 5px 0;
-        }
-
-        #sidebar-content {
-            margin-top: 50px;
-        }
-
-        #content-container {
-            margin-top: 90px;
-            padding: 20px;
-            overflow: hidden; /* Clear floats */
-        }
-
-        .summary-box {
-            background-color: #f0f0f0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-left: 50px;
-            margin-top: 20px;
-        }
-
-        .summary-box h3 {
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            margin-left: 10px;
-        }
-
-        .summary-box img {
-            margin-right: 25px;
-            max-height: 65px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/admin_dashboard.css">
 </head>
 <body>
 
@@ -238,7 +69,7 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 <div id="topbar">
     <h2>PSA-CAR SOCD LibSys</h2>
     <div class="dropdown">
-        <img src="dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
+        <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
         <div class="dropdown-content">
             <p>Logged in as: <?php echo $username; ?></p>
             <a href="logout.php">Logout</a>
@@ -246,13 +77,13 @@ $user_count = $user_result->fetch_assoc()['user_count'];
     </div>
 </div>
 
+
 <div id="sidebar">
     <div id="sidebar-content">
-        <p><strong>Dashboard</strong></p>
-        <ul>
-            <li><a href="manage_files.php">Manage Files</a></li>
-
-            <li><a href="manage_users.php">Manage Users</a></li>
+    <p><strong>Dashboard</strong></p>
+        <ul style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
+            <li><a href="manage_files.php" class="sidebar-link" >Manage Files</a></li>
+            <li style="margin-top: 20px;"><a href="manage_users.php" class="sidebar-link" >Manage Users</a></li>
             <!-- Add more options here -->
         </ul>
     </div>

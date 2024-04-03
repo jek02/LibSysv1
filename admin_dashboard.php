@@ -66,18 +66,18 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 
 <div id="background-container"></div>
 
-<div id="topbar">
-    <h2>PSA-CAR SOCD LibSys</h2>
-    <div class="dropdown">
-        <img src="dropdown_icon.png" alt="Dropdown Icon" width="50" height="50">
-        <div class="dropdown-content">
-            <p>Logged in as: <?php echo $username; ?></p>
-            <a href="logout.php">Logout</a>
+    <div id="topbar">
+        <h2>PSA-CAR SOCD LibSys</h2>
+        <div class="dropdown">
+            <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
+            <div class="dropdown-content">
+                <p>Logged in as: <?php echo $username; ?></p>
+                <a href="logout.php">Logout</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="sidebar">
+    <div id="sidebar">
     <div id="sidebar-content">
     <p><strong>Dashboard</strong></p>
         <ul style="margin-top: 50px;"> <!-- Adjust the margin-top value as needed -->
@@ -103,6 +103,5 @@ $user_count = $user_result->fetch_assoc()['user_count'];
     </div>
     <!-- Add more summary boxes here -->
 </div>
-
 </body>
 </html>
