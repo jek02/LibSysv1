@@ -39,9 +39,6 @@ if ($user_result && $user_result->num_rows > 0) {
 
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,7 +78,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="content">
     <h2>List of Files</h2>
         <?php
-        $res = mysqli_query($conn, "SELECT * FROM `files`");
+        $res = mysqli_query($conn, "SELECT * FROM `Files`");
 
         echo "<table class='table table-bordered table-hover'>";
         echo "<tr style='background-color: white;'>";
@@ -102,7 +99,7 @@ if ($user_result && $user_result->num_rows > 0) {
             echo "<td>" . $row['type_of_publication'] . "</td>";
             echo "<td>";
             echo "<a href='' class='btn btn-primary mr-2'>Edit</a>";
-            echo "<a href='view.php?id='' class='btn btn-success'>Delete</a>";
+            echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
             echo "</td>";
             echo "</tr>";
         }
