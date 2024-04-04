@@ -93,7 +93,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<tr>";
     echo "<th style='width: 5%; font-weight: bold; text-align: center;'>ID</th>";
     echo "<th style='width: 25%; font-weight: bold; text-align: center;'>File Name</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Author</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Uploaded by</th>";
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";

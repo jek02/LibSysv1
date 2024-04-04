@@ -82,8 +82,8 @@ if ($user_result && $user_result->num_rows > 0) {
         <label for="">File Name:</label>
         <input type="text" name="name" required>
         
-        <label for="">Author:</label>
-        <input type="text" name="author" required>
+        <input type="hidden" name="author" value="<?php echo htmlspecialchars($username); ?>">
+    
         
         <label for="">Year:</label>
         <input type="number" name="year" required>
