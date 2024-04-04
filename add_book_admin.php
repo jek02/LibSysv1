@@ -3,8 +3,8 @@
 session_start();
 
 // Check if user is logged in and has employee role, else redirect to login page
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'EMPLOYEE') {
-    header("Location: ../login.php");
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'ADMIN') {
+    header("Location: login.php");
     exit();
 }
 // Get the user ID from the session
@@ -48,7 +48,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a File</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="add_book.css">
+    <link rel="stylesheet" href="employee/add_book.css">
 </head>
 <body>
 
@@ -57,7 +57,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="../ICON-4.png" alt="Dropdown Icon" width="68" height="68">
+            <img src="ICON-4.png" alt="Dropdown Icon" width="50" height="50">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
                 <a href="../logout.php">Logout</a>
@@ -68,7 +68,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar">
         <div id="sidebar-content">
             <ul>
-                <li><a href="#" class="sidebar-link" >Profile</a></li>
+                <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
                 <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
                 <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
