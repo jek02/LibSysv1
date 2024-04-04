@@ -105,9 +105,9 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<tr>";
         echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
         echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['author'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['year'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['type_of_publication'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
         echo "<td class='text-center align-middle'>";
         echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
         echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
@@ -121,18 +121,28 @@ if ($user_result && $user_result->num_rows > 0) {
 
     // Pagination indicators
     echo "<div class='text-center'>";
-    $prevPage = $page - 1;
-    $nextPage = $page + 1;
+    $currentPage = $page; // Current page indicator
 
-    // Calculate the range of pages to display
-    $startPage = max(1, $page - 1);
-    $endPage = min($startPage + 2, $totalPages = ceil($totalRows / $limit));
-    
-    // Display pagination indicators
-    for ($i = $startPage; $i <= $endPage; $i++) {
-        echo "<a href='?page=$i' class='btn btn-secondary mx-1'>$i</a>";
+    // Only display "Previous" button if current page is greater than 1
+    if ($currentPage > 1) {
+        $prevPage = $page - 1;
+        echo "<a href='?page=$prevPage' class='btn btn-secondary mr-2'>Previous</a>";
     }
-    
+
+    // Check if there are more records beyond the current page
+    $nextPage = $page + 1;
+    $sqlCount = "SELECT COUNT(*) AS total FROM `Files`";
+    $resultCount = mysqli_query($conn, $sqlCount);
+    $dataCount = mysqli_fetch_assoc($resultCount);
+    $totalRows = $dataCount['total'];
+    $lastPage = ceil($totalRows / $limit);
+    if ($nextPage <= $lastPage) {
+        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2'>$currentPage</a>";
+        echo "<a href='?page=$nextPage' class='btn btn-secondary'>Next</a>";
+    } else {
+        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2 disabled'>$currentPage</a>";
+        echo "<a href='#' class='btn btn-secondary disabled'>Next</a>";
+    }
     echo "</div>";
     ?>
 </div>

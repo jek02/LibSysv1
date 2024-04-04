@@ -78,13 +78,20 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="content">
     <h2>List of Files</h2>
     <?php
-    $res = mysqli_query($conn, "SELECT * FROM `Files`");
+    // Pagination
+    $limit = 20; // Number of files per page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page
+    $offset = ($page - 1) * $limit; // Offset for SQL query
+
+    // Fetch files with pagination
+    $sql = "SELECT * FROM `Files` LIMIT $offset, $limit";
+    $res = mysqli_query($conn, $sql);
 
     echo "<div class='table-responsive'>";
     echo "<table class='table table-bordered table-hover'>";
     echo "<thead class='thead-light'>";
     echo "<tr>";
-    echo "<th style='width: 5%;  font-weight: bold; text-align: center;'>ID</th>";
+    echo "<th style='width: 5%; font-weight: bold; text-align: center;'>ID</th>";
     echo "<th style='width: 25%; font-weight: bold; text-align: center;'>File Name</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Author</th>";
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
@@ -98,9 +105,9 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<tr>";
         echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
         echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['author'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['year'] . "</b></td>";
-        echo "<td class='text-center'><b>" . $row['type_of_publication'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
+        echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
         echo "<td class='text-center align-middle'>";
         echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
         echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
@@ -111,9 +118,35 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "</tbody>";
     echo "</table>";
     echo "</div>";
+
+    // Pagination indicators
+    echo "<div class='text-center'>";
+    $currentPage = $page; // Current page indicator
+
+    // Only display "Previous" button if current page is greater than 1
+    if ($currentPage > 1) {
+        $prevPage = $page - 1;
+        echo "<a href='?page=$prevPage' class='btn btn-secondary mr-2'>Previous</a>";
+    }
+
+    // Check if there are more records beyond the current page
+    $nextPage = $page + 1;
+    $sqlCount = "SELECT COUNT(*) AS total FROM `Files`";
+    $resultCount = mysqli_query($conn, $sqlCount);
+    $dataCount = mysqli_fetch_assoc($resultCount);
+    $totalRows = $dataCount['total'];
+    $lastPage = ceil($totalRows / $limit);
+    if ($nextPage <= $lastPage) {
+        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2'>$currentPage</a>";
+        echo "<a href='?page=$nextPage' class='btn btn-secondary'>Next</a>";
+    } else {
+        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2 disabled'>$currentPage</a>";
+        echo "<a href='#' class='btn btn-secondary disabled'>Next</a>";
+    }
+    echo "</div>";
     ?>
 </div>
 
-  
+
 </body>
 </html>
