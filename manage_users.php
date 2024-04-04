@@ -56,7 +56,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="topbar">
     <h2>PSA-CAR SOCD LibSys</h2>
     <div class="dropdown">
-        <img src="ICON-1.png" alt="Dropdown Icon" width="50" height="50">
+        <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
         <div class="dropdown-content">
             <p>Logged in as: <?php echo $username; ?></p>
             <a href="logout.php">Logout</a>
@@ -69,7 +69,6 @@ if ($user_result && $user_result->num_rows > 0) {
         <ul style="margin-top: 50px;">
             <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
             <li style="margin-top: 20px;"> <a href="manage_files.php" class="sidebar-link">Manage Files</a></li>
-            <li style="margin-top: 20px;"> <a href="manage_users.php" class="sidebar-link">Manage Users</a></li>
             <!-- Add more options here -->
         </ul>
     </div>

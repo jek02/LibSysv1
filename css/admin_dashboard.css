@@ -14,17 +14,18 @@ body {
         bottom: 0;
     }
 
-    #content-container {
-        margin-left: 240px;
-        margin-top: 70px;
+    #content {
+        margin-left: 240px; /* Adjusted to accommodate sidebar width */
+        margin-top: 105px; /* Adjusted to accommodate topbar */
     }
-
     .summary-box {
         width: auto;
         margin-right: 20px;
         margin-bottom: 20px;
         float: left;
     }
+
+
 }
 
 /* Mobile styles */
@@ -34,21 +35,20 @@ body {
         position: static;
     }
 
-    #content-container {
+    #content {
         margin-left: 0;
-        margin-top: 110px;
+        margin-top: 145px; /* Adjusted to accommodate topbar */
     }
-
     .summary-box {
         width: auto;
         margin-right: 20px;
         margin-bottom: 20px;
         float: none;
     }
+
+    
 }
 
-
-/* Common styles */
 #background-container {
     position: fixed;
     top: 0;
@@ -60,27 +60,23 @@ body {
     opacity: 0.5;
     z-index: -1;
 }
-
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 35px;
+    padding: 20px;
     text-align: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-}
+} 
 
-#topbar .dropdown {
-    position: absolute;
-    top: 50%;
-    left: 87%;
-    transform: translateY(-50%);
-    cursor: pointer;
+#topbar h2 {
+    font-weight: normal; /* Add this rule to set the font weight to normal */
+    font-size: 30px; /* Add this rule to increase the font size */
+    margin-top: 15px;
 }
-
 #topbar .dropdown-content {
     display: none;
     position: absolute;
@@ -90,6 +86,16 @@ body {
     z-index: 1000;
     color: #000000;
 }
+
+
+#topbar .dropdown {
+    position: absolute;
+    top: 50%;
+    left: 87%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
 
 #topbar .dropdown:hover .dropdown-content {
     display: block;
@@ -105,13 +111,12 @@ body {
 #topbar .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
-
 #sidebar {
     background-color: #2565AE;
     color: #fff;
     padding: 10px;
     z-index: 999;
-    width: 175px;
+    width: 155px;
     margin-top: 40px;
 }
 
@@ -151,14 +156,12 @@ body {
 .sidebar-link:hover {
     transform: scale(1.1); /* Scale up the size on hover */
 }
-
 #content-container {
     margin-top: 90px;
     margin-left: 190px;
     padding: 20px;
     overflow: hidden; /* Clear floats */
 }
-
 .summary-box {
     background-color: #f0f0f0;
     padding: 20px;

@@ -4,7 +4,7 @@ session_start();
 
 // Check if user is logged in and has employee role, else redirect to login page
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'EMPLOYEE') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 // Get the user ID from the session
@@ -57,7 +57,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="../ICON-1.png" alt="Dropdown Icon" width="50" height="50">
+            <img src="../ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
                 <a href="../logout.php">Logout</a>
