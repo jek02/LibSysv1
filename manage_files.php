@@ -99,7 +99,7 @@ if ($user_result && $user_result->num_rows > 0) {
             echo "<td>" . $row['year'] . "</td>";
             echo "<td>" . $row['type_of_publication'] . "</td>";
             echo "<td>";
-            echo "<a href='' class='btn btn-primary mr-2'>Edit</a>";
+            echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
             echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
             echo "</td>";
             echo "</tr>";
