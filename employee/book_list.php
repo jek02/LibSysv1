@@ -76,36 +76,44 @@ if ($user_result && $user_result->num_rows > 0) {
     </div>
 
     <div id="content">
-        <h2>List of Files</h2>
-        <?php
-        $res = mysqli_query($conn, "SELECT * FROM `Files`");
+    <h2>List of Files</h2>
+    <?php
+    $res = mysqli_query($conn, "SELECT * FROM `Files`");
 
-        echo "<table class='table table-bordered table-hover'>";
-        echo "<tr style='background-color: white;'>";
-        echo "<th>ID</th>";
-        echo "<th>File Name</th>";
-        echo "<th>Author</th>";
-        echo "<th>Year</th>";
-        echo "<th>Type of Publication</th>";
-        echo "<th>Action</th>";
+    echo "<div class='table-responsive'>";
+    echo "<table class='table table-bordered table-hover'>";
+    echo "<thead class='thead-light'>";
+    echo "<tr>";
+    echo "<th style='width: 5%;  font-weight: bold; text-align: center;'>ID</th>";
+    echo "<th style='width: 25%; font-weight: bold; text-align: center;'>File Name</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Author</th>";
+    echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo "<tr>";
+        echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
+        echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['author'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['year'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['type_of_publication'] . "</b></td>";
+        echo "<td class='text-center align-middle'>";
+        echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
+        echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
+        echo "</td>";
         echo "</tr>";
+    }
 
-        while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr>";
-            echo "<td>" . $row['bid'] . "</td>";
-            echo "<td>" . $row['name'] . "</td>";
-            echo "<td>" . $row['author'] . "</td>";
-            echo "<td>" . $row['year'] . "</td>";
-            echo "<td>" . $row['type_of_publication'] . "</td>";
-            echo "<td>";
-            echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
-            echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        ?>
-    </div>
+    echo "</tbody>";
+    echo "</table>";
+    echo "</div>";
+    ?>
+</div>
+
   
 </body>
 </html>

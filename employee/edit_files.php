@@ -94,7 +94,7 @@ if(isset($_GET['id'])) {
     <div id="sidebar">
         <div id="sidebar-content">
             <ul>
-                <li><a href="" class="sidebar-link" >View Files</a></li>
+                <li><a href="../manage_files.php" class="sidebar-link" >View Files</a></li>
                 <li><a href="" class="sidebar-link" >-----</a></li>
                 <li><a href="" class="sidebar-link" >-----</a></li>
                 <!-- Add more sidebar items as needed -->

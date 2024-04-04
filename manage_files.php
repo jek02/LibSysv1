@@ -77,35 +77,65 @@ if ($user_result && $user_result->num_rows > 0) {
 
     <div id="content">
     <h2>List of Files</h2>
-        <?php
-        $res = mysqli_query($conn, "SELECT * FROM `Files`");
+    <?php
+    // Pagination
+    $limit = 20; // Number of files per page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page
+    $offset = ($page - 1) * $limit; // Offset for SQL query
 
-        echo "<table class='table table-bordered table-hover'>";
-        echo "<tr style='background-color: white;'>";
-        echo "<th>ID</th>";
-        echo "<th>File Name</th>";
-        echo "<th>Author</th>";
-        echo "<th>Year</th>";
-        echo "<th>Type of Publication</th>";
-        echo "<th>Action</th>";
+    // Fetch files with pagination
+    $sql = "SELECT * FROM `Files` LIMIT $offset, $limit";
+    $res = mysqli_query($conn, $sql);
+
+    echo "<div class='table-responsive'>";
+    echo "<table class='table table-bordered table-hover'>";
+    echo "<thead class='thead-light'>";
+    echo "<tr>";
+    echo "<th style='width: 5%; font-weight: bold; text-align: center;'>ID</th>";
+    echo "<th style='width: 25%; font-weight: bold; text-align: center;'>File Name</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Author</th>";
+    echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo "<tr>";
+        echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
+        echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['author'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['year'] . "</b></td>";
+        echo "<td class='text-center'><b>" . $row['type_of_publication'] . "</b></td>";
+        echo "<td class='text-center align-middle'>";
+        echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
+        echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
+        echo "</td>";
         echo "</tr>";
+    }
 
-        while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr>";
-            echo "<td>" . $row['bid'] . "</td>";
-            echo "<td>" . $row['name'] . "</td>";
-            echo "<td>" . $row['author'] . "</td>";
-            echo "<td>" . $row['year'] . "</td>";
-            echo "<td>" . $row['type_of_publication'] . "</td>";
-            echo "<td>";
-            echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
-            echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        ?>
-    </div>
-  
+    echo "</tbody>";
+    echo "</table>";
+    echo "</div>";
+
+    // Pagination indicators
+    echo "<div class='text-center'>";
+    $prevPage = $page - 1;
+    $nextPage = $page + 1;
+
+    // Calculate the range of pages to display
+    $startPage = max(1, $page - 1);
+    $endPage = min($startPage + 2, $totalPages = ceil($totalRows / $limit));
+    
+    // Display pagination indicators
+    for ($i = $startPage; $i <= $endPage; $i++) {
+        echo "<a href='?page=$i' class='btn btn-secondary mx-1'>$i</a>";
+    }
+    
+    echo "</div>";
+    ?>
+</div>
+
 </body>
 </html>
