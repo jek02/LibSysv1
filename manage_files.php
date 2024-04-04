@@ -37,6 +37,8 @@ if ($user_result && $user_result->num_rows > 0) {
     $username = "Unknown";
 }
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -97,6 +99,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Comments</th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";
@@ -111,6 +114,9 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'>";
         echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
         echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
+        echo "</td>";
+        echo "<td class='text-center align-middle'>";
+        echo "<button type='button' class='btn btn-success open-modal' data-file-id='" . $row['bid'] . "' data-toggle='modal' data-target='#addCommentModal'>Add</button>";
         echo "</td>";
         echo "</tr>";
     }
@@ -147,5 +153,43 @@ if ($user_result && $user_result->num_rows > 0) {
     ?>
 </div>
 
+
+<div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCommentModalLabel">Add Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form id="commentForm" action="" method="post">
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.open-modal').click(function() {
+        // Get the value of data-file-id attribute from the clicked button
+        var fileId = $(this).data('file-id');
+        console.log("File ID:", fileId);
+        // Update the action attribute of the form to include the file ID
+        $('#commentForm').attr('action', 'add_comment.php?file_id=' + fileId);
+    });
+});
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

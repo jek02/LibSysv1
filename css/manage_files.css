@@ -19,7 +19,12 @@ body {
         margin-top: 70px;
     }
 
-
+    .summary-box {
+        width: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        float: left;
+    }
 }
 
 /* Mobile styles */
@@ -34,7 +39,12 @@ body {
         margin-top: 110px;
     }
 
-    
+    .summary-box {
+        width: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        float: none;
+    }
 }
 
 
@@ -70,7 +80,9 @@ body {
     transform: translateY(-50%);
     cursor: pointer;
 }
-
+#topbar h2{
+    color:#fff;
+}
 #topbar .dropdown-content {
     display: none;
     position: absolute;
@@ -127,7 +139,7 @@ body {
 }
 
 #sidebar-content {
-    margin-top: 80px;
+    margin-top: 93px;
     margin-left: 15px;
 }
 
@@ -141,19 +153,15 @@ body {
     transform: scale(1.1); /* Scale up the size on hover */
 }
 
-
 #content {
-    margin-top: 65px; /* Adjusted to accommodate topbar */
+    margin-top: 130px; /* Adjusted to accommodate topbar */
     margin-left: 220px; /* Adjusted to accommodate sidebar width */
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-#content h2 {
-    margin-top:35px;
-    color:#000000;
-}
+
 #book-list {
     margin-top: 20px; /* Add some space between topbar and book list */
     width: calc(100% - 220px); /* Adjusted width to fit content next to sidebar */
@@ -178,12 +186,13 @@ body {
 }
 
 h2 {
-    color: #fff;
+    margin-top: 10px;
+    color: #000000;
 }
 
 p {
-    color: #000000;
     margin-top: 10px;
+    color: #000000;
 }
 
 form {
@@ -199,34 +208,3 @@ label {
     color: #333;
 }
 
-input[type="text"],
-input[type="number"],
-textarea,
-input[type="file"],
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-input[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #45a049;
-}
-
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}

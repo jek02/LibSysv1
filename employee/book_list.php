@@ -97,6 +97,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Comments</th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";
@@ -109,8 +110,11 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
         echo "<td class='text-center align-middle'>";
-        echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
-        echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
+        echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
+        echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
+        echo "</td>";
+        echo "<td class='text-center align-middle'>";
+        echo "<a href='view_comments.php' class='btn btn-success'>View</a>";
         echo "</td>";
         echo "</tr>";
     }
