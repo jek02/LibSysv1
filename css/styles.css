@@ -19,7 +19,7 @@ body {
     height: auto;
     opacity: 0; /* Initially hide the logo */
     animation: zoomFadeIn  1s ease forwards;
-    margin-bottom: 40px; /* Adjust margin to move the logo upwards */
+    margin-bottom: 15px; /* Adjust margin to move the logo upwards */
 }
 
 form {
@@ -27,7 +27,8 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 150px;
+    margin-top: 20px;
+    margin-bottom: 130px;
 }
 
 h2 {
