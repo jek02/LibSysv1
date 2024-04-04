@@ -54,7 +54,7 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 25px;
+    padding: 35px;
     text-align: center;
     position: fixed;
     top: 0;
@@ -131,7 +131,7 @@ body {
 }
 
 #sidebar-content {
-    margin-top: 80px;
+    margin-top: 92px;
     margin-left: 15px;
 }
 
@@ -146,6 +146,7 @@ body {
 }
 
 #content {
+    margin-top:65;
     padding: 20px;
     display: flex;
     flex-direction: column;
