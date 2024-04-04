@@ -2,68 +2,127 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Get the user ID from the session
-$user_id = $_SESSION['user_id'];
+session_start();
 
 // Database credentials
-$servername = "localhost";
-$username = "root";
-$password = "";
+$host = "localhost";
+$db_username = "root";
+$db_password = "";
 $database = "file_inventory";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($host, $db_username, $db_password, $database);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get form data
-$username = $_POST['username'];
-$password = $_POST['password'];
-$role = $_POST['role'];
+$user_id = $_SESSION['user_id'];
 
-// Insert data into users table
-$sql = "INSERT INTO users (username, password, role) VALUES ('$username', '$password', '$role')";
-if ($conn->query($sql) === TRUE) {
-    echo "User registered successfully!";
+// Query to fetch user information based on user ID
+$user_query = "SELECT username FROM users WHERE user_id = $user_id";
+$user_result = $conn->query($user_query);
+
+// Check if user information is fetched successfully
+if ($user_result && $user_result->num_rows > 0) {
+    // Fetch user data
+    $user_data = $user_result->fetch_assoc();
+    // Get the username
+    $username = $user_data['username'];
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    // Handle error if user data is not found
+    $username = "Unknown";
 }
 
-// Close database connection
-$conn->close();
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+    <title>Add a user</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="add_users.css">
 </head>
 <body>
-    <div class="container">
-        <h2>User Registration</h2>
-        <form action="register_process.php" method="post">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+
+<div id="background-container"></div>
+
+    <div id="topbar">
+        <h2>PSA-CAR SOCD LibSys</h2>
+        <div class="dropdown">
+            <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
+            <div class="dropdown-content">
+                <p>Logged in as: <?php echo $username; ?></p>
+                <a href="logout.php">Logout</a>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="role">Role:</label>
-                <input type="text" id="role" name="role" required>
-            </div>
-            <button type="submit">Register</button>
-        </form>
+        </div>
     </div>
+
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <ul>
+                <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
+                <li><a href="manage_users.php" class="sidebar-link" >View Users</a></li>
+                <!-- Add more sidebar items as needed -->
+            </ul>
+        </div>
+    </div>
+
+    <div id="content">
+    <h2>Add a Users</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+        
+        <label for="">Username:</label>
+        <input type="text" name="username" required>
+        
+        <label for="">Password:</label>
+        <input type="text" name="password1" required>
+        
+        <label for="">Confirm Password:</label>
+        <input type="text" name="password2" required>
+        
+        <label for="">Role:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <select name="role" required>
+            <option value="" selected hidden>Select</option>
+            <option value="ADMIN" >ADMIN</option>
+            <option value="EMPLOYEE" >EMPLOYEE</option>
+        </select> 
+        
+        <input type="submit" name="submit" value="Register">
+    </form>
+</div>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $username = $_POST['username'];
+    $password1 = $_POST['password1'];
+    $password2 = $_POST['password2'];
+    $role = $_POST['role'];
+
+    // Check if passwords match
+    if ($password1 !== $password2) {
+        echo "Passwords do not match.";
+    } else {
+
+        // Prepare and execute SQL statement to insert data into the database
+        $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $username, $password1, $role);
+
+        if ($stmt->execute()) {
+            header("Location: manage_users.php");
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        // Close statement
+        $stmt->close();
+    }
+}
+
+?>
+
 </body>
 </html>

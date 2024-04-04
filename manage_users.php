@@ -95,7 +95,7 @@ if ($user_result && $user_result->num_rows > 0) {
             echo "<td>" . $row['password'] . "</td>";
             echo "<td>" . $row['role'] . "</td>";
             echo "<td>";
-            echo "<a href='' class='btn btn-primary mr-2'>Edit</a>";
+            echo "<a href='edit_users.php?id=" . $row['user_id'] . "' class='btn btn-primary mr-2'>Edit</a>";
             echo "<span class='separator'>&nbsp;&nbsp;</span>";
             echo "<a href='delete_users.php?id=" . $row['user_id'] . "' class='btn btn-success'>Delete</a>";
             echo "</td>";
