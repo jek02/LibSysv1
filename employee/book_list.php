@@ -140,12 +140,14 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2'>$currentPage</a>";
         echo "<a href='?page=$nextPage' class='btn btn-secondary'>Next</a>";
     } else {
-        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2 disabled'>$currentPage</a>";
+        // Disable "Next" button and add spacing
+        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2'>$currentPage</a>";
         echo "<a href='#' class='btn btn-secondary disabled'>Next</a>";
     }
     echo "</div>";
     ?>
 </div>
+
 
 
 </body>
