@@ -91,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div id="sidebar-content">
         <ul>
             <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
+            <li><a href="#" class="sidebar-link" >Add User</a></li>
         </ul>
     </div>
 </div>

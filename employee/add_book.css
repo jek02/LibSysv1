@@ -80,7 +80,9 @@ body {
     transform: translateY(-50%);
     cursor: pointer;
 }
-
+#topbar h2{
+    color:#fff;
+}
 #topbar .dropdown-content {
     display: none;
     position: absolute;
@@ -137,7 +139,7 @@ body {
 }
 
 #sidebar-content {
-    margin-top: 80px;
+    margin-top: 93px;
     margin-left: 15px;
 }
 
@@ -185,7 +187,7 @@ body {
 
 h2 {
     margin-top: 10px;
-    color: #ffffff;
+    color: #000000;
 }
 
 p {

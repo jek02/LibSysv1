@@ -4,7 +4,7 @@ session_start();
 
 // Check if user is logged in and has employee role, else redirect to login page
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'EMPLOYEE') {
-    header("Location: ../login.php");
+    header("Location: ../logout.php");
     exit();
 }
 // Get the user ID from the session
@@ -69,7 +69,6 @@ if ($user_result && $user_result->num_rows > 0) {
         <div id="sidebar-content">
             <ul>
                 <li><a href="#" class="sidebar-link" >Profile</a></li>
-                <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
                 <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
@@ -95,7 +94,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <label for="bookFile">Upload Book File:</label>
         <input type="file" id="bookFile" name="bookFile" accept=".pdf, .doc, .docx">
 
-        <input type="submit" name="submit" value="Add Book">
+        <input type="submit" name="submit" value="Add File">
     </form>
 </div>
 

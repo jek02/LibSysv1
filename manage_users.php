@@ -46,7 +46,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/manage_users.css"> <!-- Include the CSS file -->
+    <link rel="stylesheet" href="css/manage_users.css"> 
     
 </head>
 <body>
@@ -68,7 +68,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar-content">
         <ul style="margin-top: 50px;">
             <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
-            <li style="margin-top: 20px;"> <a href="manage_files.php" class="sidebar-link">Manage Files</a></li>
+            <li> <a href="add_users.php" class="sidebar-link">Add Users</a></li>
             <!-- Add more options here -->
         </ul>
     </div>
