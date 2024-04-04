@@ -70,7 +70,7 @@ if ($user_result && $user_result->num_rows > 0) {
             <ul>
                 <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
                 <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
-                <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
+                <li><a href="manage_users.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
         </div>
@@ -92,7 +92,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <label for="">Type of Publication:</label>
         <input type="text" name="type_of_publication" required>
 
-        <label for="bookFile">Upload Book File:</label>
+        <label for="bookFile">Upload File:</label>
         <input type="file" id="bookFile" name="bookFile" accept=".pdf, .doc, .docx">
 
         <input type="submit" name="submit" value="Add Book">

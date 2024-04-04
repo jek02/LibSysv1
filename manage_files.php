@@ -85,7 +85,7 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<table class='table table-bordered table-hover'>";
         echo "<tr style='background-color: white;'>";
         echo "<th>ID</th>";
-        echo "<th>Book Name</th>";
+        echo "<th>File Name</th>";
         echo "<th>Author</th>";
         echo "<th>Year</th>";
         echo "<th>Type of Publication</th>";
