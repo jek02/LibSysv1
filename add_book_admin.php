@@ -57,10 +57,10 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="topbar">
         <h2>PSA-CAR SOCD LibSys</h2>
         <div class="dropdown">
-            <img src="ICON-4.png" alt="Dropdown Icon" width="50" height="50">
+            <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
                 <p>Logged in as: <?php echo $username; ?></p>
-                <a href="../logout.php">Logout</a>
+                <a href="logout.php">Logout</a>
             </div>
         </div>
     </div>
@@ -69,8 +69,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <div id="sidebar-content">
             <ul>
                 <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
-                <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
-                <li><a href="manage_users.php" class="sidebar-link" >View Files</a></li>
+                <li><a href="manage_files.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
         </div>
@@ -95,7 +94,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <label for="bookFile">Upload File:</label>
         <input type="file" id="bookFile" name="bookFile" accept=".pdf, .doc, .docx">
 
-        <input type="submit" name="submit" value="Add Book">
+        <input type="submit" name="submit" value="Add File">
     </form>
 </div>
 
@@ -120,7 +119,7 @@ if ($user_result && $user_result->num_rows > 0) {
 
         $file_name = $_FILES['bookFile']['name']; // Get the name of the uploaded file
         $file_tmp = $_FILES['bookFile']['tmp_name']; // Get the temporary location of the uploaded file
-        $file_destination = "../uploads/" . $file_name; 
+        $file_destination = "uploads/" . $file_name; 
         // var_dump($file_tmp, $file_destination); // Uncomment for debugging
         echo "Temporary file: " . $file_tmp;
         if (move_uploaded_file($file_tmp, $file_destination)) {

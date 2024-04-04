@@ -68,7 +68,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar-content">
         <ul style="margin-top: 50px;">
             <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
-            <li style="margin-top: 20px;"> <a href="manage_files.php" class="sidebar-link">Manage Files</a></li>
+            <li> <a href="add_users.php" class="sidebar-link">Add Users</a></li>
             <!-- Add more options here -->
         </ul>
     </div>
