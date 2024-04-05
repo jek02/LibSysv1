@@ -124,6 +124,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "</tbody>";
     echo "</table>";
     echo "</div>";
+    
 
     // Pagination indicators
     echo "<div class='text-center'>";

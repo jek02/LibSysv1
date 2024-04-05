@@ -51,6 +51,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <title>List of Files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="book_list.css">
+
 </head>
 <body>
 
@@ -117,7 +118,8 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
         echo "</td>";
         echo "<td class='text-center align-middle'>";
-        echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View Comment</a>";
+        echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
+        echo " <span class='comment-count'>" . getCommentCount($row['bid']) . "</span>";
         echo "</td>";
         echo "</tr>";
     }
@@ -134,6 +136,44 @@ if ($user_result && $user_result->num_rows > 0) {
     if ($currentPage > 1) {
         $prevPage = $page - 1;
         echo "<a href='?page=$prevPage' class='btn btn-secondary mr-2'>Previous</a>";
+    }
+
+    function getCommentCount($file_id) {
+        // Include your database connection file if needed
+        // include 'db_connection.php';
+    
+        // Database connection details
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "file_inventory";
+    
+        // Create connection
+        $conn = mysqli_connect($servername, $username, $password, $database);
+    
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+    
+        // Query to get comment count
+        $sql = "SELECT COUNT(*) AS comment_count FROM Comments WHERE file_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $file_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        // Get the comment count
+        $comment_count = 0;
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $comment_count = $row['comment_count'];
+        }
+    
+        $stmt->close();
+        $conn->close();
+    
+        return $comment_count;
     }
 
     // Check if there are more records beyond the current page
