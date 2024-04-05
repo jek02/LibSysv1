@@ -48,7 +48,7 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 35px;
+    padding: 30px;
     text-align: center;
     position: fixed;
     top: 0;
@@ -156,6 +156,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-right: 20px; /* Add margin between summary boxes */
+    margin-top: 20px;
 }
 
 .summary-box h3 {
