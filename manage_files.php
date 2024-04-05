@@ -86,7 +86,7 @@ if ($user_result && $user_result->num_rows > 0) {
     $offset = ($page - 1) * $limit; // Offset for SQL query
 
     // Fetch files with pagination
-    $sql = "SELECT * FROM `Files` LIMIT $offset, $limit";
+    $sql = "SELECT * FROM `Files` ORDER BY `updated_at` DESC LIMIT $offset, $limit";
     $res = mysqli_query($conn, $sql);
 
     echo "<div class='table-responsive'>";
