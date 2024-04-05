@@ -76,34 +76,37 @@ if ($user_result && $user_result->num_rows > 0) {
 
 <div id="content">
     <h2>List of Users</h2>
-        <?php
-        $res = mysqli_query($conn, "SELECT * FROM `users`");
+    <?php
 
-        echo "<table class='table table-bordered table-hover'>";
+    $res = mysqli_query($conn, "SELECT * FROM `users`");
+    echo "<table class='table table-bordered table-hover'>";
+    echo "<tr style='background-color: white;'>";
+    echo "<th>ID</th>";
+    echo "<th>Username</th>";
+    echo "<th>Password</th>";
+    echo "<th>Role</th>";
+    echo "<th>Action</th>";
+    echo "</tr>";
+
+    while ($row = mysqli_fetch_assoc($res)) {
         echo "<tr style='background-color: white;'>";
-        echo "<th>ID</th>";
-        echo "<th>Username</th>";
-        echo "<th>Password</th>";
-        echo "<th>role</th>";
-        echo "<th>Action</th>";
+        echo "<td>" . $row['user_id'] . "</td>";
+        echo "<td>" . $row['username'] . "</td>";
+        echo "<td>" . $row['password'] . "</td>";
+        echo "<td>" . $row['role'] . "</td>";
+        echo "<td>";
+        echo "<a href='edit_users.php?id=" . $row['user_id'] . "' class='btn btn-primary mr-2'>Edit</a>";
+        echo "<span class='separator'>&nbsp;&nbsp;</span>";
+        echo "<a href='delete_users.php?id=" . $row['user_id'] . "' class='btn btn-success'>Delete</a>";
+        echo "</td>";
         echo "</tr>";
+    }
+    echo "</table>";
 
-        while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr style='background-color: white;'>";
-            echo "<td>" . $row['user_id'] . "</td>";
-            echo "<td>" . $row['username'] . "</td>";
-            echo "<td>" . $row['password'] . "</td>";
-            echo "<td>" . $row['role'] . "</td>";
-            echo "<td>";
-            echo "<a href='edit_users.php?id=" . $row['user_id'] . "' class='btn btn-primary mr-2'>Edit</a>";
-            echo "<span class='separator'>&nbsp;&nbsp;</span>";
-            echo "<a href='delete_users.php?id=" . $row['user_id'] . "' class='btn btn-success'>Delete</a>";
-            echo "</td>";
-            echo "</tr>";
-        }
-        echo "</table>";
-        ?>
-    </div>
+
+    ?>
+</div>
+
 
 </body>
 </html>
