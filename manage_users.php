@@ -78,7 +78,15 @@ if ($user_result && $user_result->num_rows > 0) {
     <h2>List of Users</h2>
     <?php
 
-    $res = mysqli_query($conn, "SELECT * FROM `users`");
+    // Pagination variables
+    $limit = 20; // Number of users per page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page, default is 1
+    $offset = ($page - 1) * $limit; // Offset calculation
+
+    // Query to fetch users with limit and offset
+    $query = "SELECT * FROM `users` LIMIT $limit OFFSET $offset";
+    $res = mysqli_query($conn, $query);
+
     echo "<table class='table table-bordered table-hover'>";
     echo "<tr style='background-color: white;'>";
     echo "<th>ID</th>";
@@ -103,9 +111,30 @@ if ($user_result && $user_result->num_rows > 0) {
     }
     echo "</table>";
 
+    // Pagination links
+    $total_query = "SELECT COUNT(*) as total FROM `users`";
+    $total_result = mysqli_query($conn, $total_query);
+    $total_row = mysqli_fetch_assoc($total_result);
+    $total_pages = ceil($total_row['total'] / $limit);
+
+    echo "<ul class='pagination justify-content-center'>";
+    if ($page > 1) {
+        echo "<li class='page-item'><a class='page-link' href='?page=" . ($page - 1) . "'>Previous</a></li>";
+    }
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        echo "<li class='page-item'><a class='page-link' href='?page=" . $i . "'>" . $i . "</a></li>";
+    }
+
+    if ($page < $total_pages) {
+        echo "<li class='page-item'><a class='page-link' href='?page=" . ($page + 1) . "'>Next</a></li>";
+    }
+    echo "</ul>";
 
     ?>
 </div>
+
+
 
 
 </body>
