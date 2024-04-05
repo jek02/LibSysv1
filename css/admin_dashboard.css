@@ -76,7 +76,7 @@ body {
 #topbar .dropdown {
     position: absolute;
     top: 50%;
-    left: 87%;
+    left: 86%;
     transform: translateY(-50%);
     cursor: pointer;
 }
