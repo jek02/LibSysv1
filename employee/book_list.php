@@ -253,7 +253,7 @@ $(document).ready(function() {
 
         // Send AJAX request
         $.ajax({
-            url: "search.php", // Path to your PHP script handling the search
+            url: "employee/search.php", // Path to your PHP script handling the search
             method: "POST",
             data: { filterBy: filterBy, searchInput: searchInput },
             success: function(response) {

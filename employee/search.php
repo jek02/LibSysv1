@@ -49,13 +49,30 @@ if ($filterBy === "catalog") {
 
 // Execute SQL query
 $res = mysqli_query($conn, $sql);
+
+// Pagination
+$limit = 20; // Number of files per page
+$total_records = mysqli_num_rows($res);
+$total_pages = ceil($total_records / $limit); // Calculate total pages
+
+$page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page
+
+$start_index = ($page - 1) * $limit; // Ofafset for SQL query
+$sql .= " LIMIT $start_index, $limit"; // Modify SQL query with pagination
+
+$res = mysqli_query($conn, $sql);
+
+function highlightKeyword($content, $keyword) {
+    return preg_replace("/($keyword)/i", "<span style='background-color: yellow;'>$1</span>", $content);
+}
+
 while ($row = mysqli_fetch_assoc($res)) {
     echo "<tr>";
     echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
-    echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
-    echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
-    echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
-    echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
+    echo "<td class='filename'><b>" . highlightKeyword($row['name'], $searchInput) . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['author'], $searchInput) . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['year'], $searchInput) . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['type_of_publication'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'>";
     echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
     echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
@@ -108,6 +125,9 @@ function getCommentCount($file_id) {
 
     return $comment_count;
 }
+
+
+
 // Close database connection
 mysqli_close($conn);
 ?>

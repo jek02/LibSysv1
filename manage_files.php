@@ -79,6 +79,19 @@ if ($user_result && $user_result->num_rows > 0) {
 
     <div id="content">
     <h2>List of Files</h2>
+
+    <div id="search-container" class="mt-4 d-flex justify-content-between align-items-center" style="width: 100%;">
+        <select class="form-control mr-2" id="filter-by" style="width: 40%;">
+            <option value="catalog">Library Catalog</option>
+            <option value="filename">File Name</option>
+            <option value="author">Author</option>
+            <option value="year">Year</option>
+            <option value="typeofpublication">Type of Publication</option>
+        </select>
+        <input type="text" class="form-control mr-2 shadow" id="search-input" placeholder="Search..." style="width: 200%;">
+        <button class="btn btn-primary" id="search-button" style="width: 20%;">Search</button>
+    </div>
+
     <?php
     // Pagination
     $limit = 20; // Number of files per page
@@ -101,7 +114,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Comments</th>";
     echo "</tr>";
     echo "</thead>";
-    echo "<tbody>";
+    echo "<tbody id='file-table-body'>";
 
     while ($row = mysqli_fetch_assoc($res)) {
         echo "<tr>";
@@ -186,6 +199,26 @@ $(document).ready(function() {
         console.log("File ID:", fileId);
         // Update the action attribute of the form to include the file ID
         $('#commentForm').attr('action', 'add_comment.php?file_id=' + fileId);
+    });
+});
+
+$(document).ready(function() {
+    // Attach click event listener to search button
+    $("#search-button").click(function() {
+        // Retrieve selected filter criteria and search keyword
+        var filterBy = $("#filter-by").val();
+        var searchInput = $("#search-input").val();
+
+        // Send AJAX request
+        $.ajax({
+            url: "admin_search.php", // Path to your PHP script handling the search
+            method: "POST",
+            data: { filterBy: filterBy, searchInput: searchInput },
+            success: function(response) {
+                // Update table with search results
+                $("#file-table-body").html(response);
+            }
+        });
     });
 });
 </script>
