@@ -88,7 +88,6 @@ if ($user_result && $user_result->num_rows > 0) {
     // Fetch files with pagination
     $sql = "SELECT * FROM `Files` ORDER BY `updated_at` DESC LIMIT $offset, $limit";
     $res = mysqli_query($conn, $sql);
-
     echo "<div class='table-responsive'>";
     echo "<table class='table table-bordered table-hover'>";
     echo "<thead class='thead-light'>";
