@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Start the session
+session_start();
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -14,15 +17,15 @@ $conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+$username = $_SESSION['username'];
 
-// Check if the form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve the file ID and comment from the form
     $file_id = $_GET['file_id']; // Get file ID from the URL query parameter
-    $comment = $_POST['comment'];
-
+    $comment = mysqli_real_escape_string($conn, $_POST['comment']);
+    
     // Prepare SQL statement to insert comment into the database
-    $sql = "INSERT INTO Comments (file_id, comment) VALUES ('$file_id', '$comment')";
+    $sql = "INSERT INTO Comments (file_id, comment, user) VALUES ('$file_id', '$comment', '$username')";
 
     // Execute SQL statement
     if (mysqli_query($conn, $sql)) {

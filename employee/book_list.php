@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Start the session
 session_start();
 
@@ -114,7 +117,7 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
         echo "</td>";
         echo "<td class='text-center align-middle'>";
-        echo "<a href='view_comments.php' class='btn btn-success'>View</a>";
+        echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View Comment</a>";
         echo "</td>";
         echo "</tr>";
     }
@@ -152,7 +155,43 @@ if ($user_result && $user_result->num_rows > 0) {
     ?>
 </div>
 
+<div class="modal" id="commentModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Comment</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" id="commentBody">
+        <!-- Comment content will be loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $('.comment-btn').click(function(){
+    var bid = $(this).data('bid');
+    console.log(bid);
+    // Make an AJAX request to fetch comment data
+    $.ajax({
+      url: 'view_comments.php', // PHP script to fetch comment data
+      method: 'POST',
+      data: { bid: bid },
+      success: function(response){
+        // Update the modal body with the fetched comment data
+        $('#commentBody').html(response);
+        
+        // Show the modal
+        $('#commentModal').modal('show');
+      }
+    });
+  });
+});
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

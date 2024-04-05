@@ -1,7 +1,30 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comment Viewer</title>
+  <style>
+    .comment-container {
+        background-color: #f7f7f7;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .comment-text {
+        margin-left: 20px; /* Adjust the indentation as needed */
+    }
+  </style>
+</head>
+<body>
+
+<?php
+// Database connection details
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -14,45 +37,37 @@ $conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+// Retrieve file_id value sent via POST
+$file_id = $_POST['bid']; // Assuming 'bid' is equivalent to 'file_id'
+
+$sql = "SELECT user, comment, timestamp FROM Comments WHERE file_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $file_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if any comments were found
+if ($result->num_rows > 0) {
+    // Output comment data
+    while ($row = $result->fetch_assoc()) {
+        // Output user, timestamp, and comment in the desired format
+        echo "<div class='comment-container'>";
+        echo "<div class='comment-info'>";
+        echo "<p><strong>" . $row['user'] . "</strong> - " . $row['timestamp'] . "</p>";
+        echo "</div>";
+        echo "<div class='comment-text'>";
+        echo "<p>" . $row['comment'] . "</p>";
+        echo "</div>";
+        echo "</div>";
+    }
+} else {
+    echo "No comments found for this file.";
+}
+
+$stmt->close();
+$conn->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="book_list.css">
-</head>
-<body>
-
-<div id="background-container"></div>
-
-    <div id="topbar">
-        <h2>PSA-CAR SOCD LibSys</h2>
-        <div class="dropdown">
-            <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
-            <div class="dropdown-content">
-                <p>Logged in as: <?php echo $username; ?></p>
-                <a href="logout.php">Logout</a>
-            </div>
-        </div>
-    </div>
-
-    <div id="sidebar">
-        <div id="sidebar-content">
-            <ul>
-                <li><a href="admin_dashboard.php" class="sidebar-link" >Home</a></li>
-                <li><a href="manage_users.php" class="sidebar-link" >View Users</a></li>
-                <!-- Add more sidebar items as needed -->
-            </ul>
-        </div>
-    </div>
-
-    <div id="content">
-
-    </div>
-</div>
 </body>
 </html>

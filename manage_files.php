@@ -177,6 +177,7 @@ if ($user_result && $user_result->num_rows > 0) {
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 $(document).ready(function() {
     $('.open-modal').click(function() {
