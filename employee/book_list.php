@@ -101,7 +101,13 @@ if ($user_result && $user_result->num_rows > 0) {
     $offset = ($page - 1) * $limit; // Offset for SQL query
 
     // Fetch files with pagination
-    $sql = "SELECT * FROM `Files` ORDER BY `updated_at` DESC LIMIT $offset, $limit";
+    $sql = "SELECT f.*, 
+               GREATEST(f.updated_at, COALESCE(MAX(c.timestamp), 0)) AS latest_timestamp
+        FROM `Files` f
+        LEFT JOIN `Comments` c ON f.bid = c.file_id
+        GROUP BY f.bid
+        ORDER BY latest_timestamp DESC
+        LIMIT $offset, $limit";
     $res = mysqli_query($conn, $sql);
 
     echo "<div class='table-responsive'>";

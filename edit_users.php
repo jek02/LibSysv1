@@ -106,8 +106,8 @@ if(isset($_GET['id'])) {
 <div id="sidebar">
     <div id="sidebar-content">
         <ul>
-            <li><a href="#" class="sidebar-link">Profile</a></li>
-            <li><a href="book_list.php" class="sidebar-link">View Files</a></li>
+            <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
+            <li><a href="manage_users.php" class="sidebar-link">View Users</a></li>
             <!-- Add more sidebar items as needed -->
         </ul>
     </div>

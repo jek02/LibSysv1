@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $servername = "localhost";
@@ -11,6 +13,23 @@ $conn = mysqli_connect($servername, $username, $password, $database);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+$user_id = $_SESSION['user_id'];
+
+$user_query = "SELECT username FROM users WHERE user_id = $user_id";
+$user_result = $conn->query($user_query);
+
+// Check if user information is fetched successfully
+if ($user_result && $user_result->num_rows > 0) {
+    // Fetch user data
+    $user_data = $user_result->fetch_assoc();
+    // Get the username
+    $username = $user_data['username'];
+} else {
+    // Handle error if user data is not found
+    $username = "Unknown";
+}
+
 
 // Check if form is submitted for editing
 if(isset($_POST['submit'])) {
@@ -92,14 +111,15 @@ if(isset($_GET['id'])) {
     </div>
 
     <div id="sidebar">
-        <div id="sidebar-content">
-            <ul>
-                <li><a href="../manage_files.php" class="sidebar-link" >View Files</a></li>
-                <li><a href="" class="sidebar-link" >-----</a></li>
-                <li><a href="" class="sidebar-link" >-----</a></li>
-                <!-- Add more sidebar items as needed -->
-            </ul>
-        </div>
+    <div id="sidebar-content">
+        <ul style="margin-top: 50px;">
+            <li><a href="../admin_dashboard.php" class="sidebar-link">Home</a></li>
+            <li style="margin-top: 20px;"> <a href="../manage_files.php" class="sidebar-link">View Files</a></li>
+            <li style="margin-top: 20px;"> <a href="../add_book_admin.php" class="sidebar-link">Add Files</a></li>
+
+            <!-- Add more options here -->
+        </ul>
+    </div>
     </div>
 
     <div id="content">
