@@ -105,13 +105,14 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<table class='table table-bordered table-hover'>";
     echo "<thead class='thead-light'>";
     echo "<tr>";
-    echo "<th style='width: 5%; font-weight: bold; text-align: center;'>ID</th>";
-    echo "<th style='width: 25%; font-weight: bold; text-align: center;'>File Name</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Uploaded by</th>";
-    echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Comments</th>";
+    echo "<th style='width: 5%; font-weight: bold; text-align: center;'class='text-center align-middle'>ID</th>";
+    echo "<th style='width: 25%; font-weight: bold; text-align: center;'class='text-center align-middle'>File Name</th>";
+    echo "<th style='width: 15%; font-weight: bold; text-align: center;'class='text-center align-middle'>Uploaded By</th>";
+    echo "<th style='width: 10%; font-weight: bold; text-align: center;'class='text-center align-middle'>Date Uploaded</th>";
+    echo "<th style='width: 15%; font-weight: bold; text-align: center;'class='text-center align-middle'>Type of Publication</th>";
+    echo "<th style='width: 10.5%; font-weight: bold; text-align: center;'class='text-center align-middle'>Status</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'class='text-center align-middle'>Action</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'class='text-center align-middle'>Comments</th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody id='file-table-body'>";
@@ -123,6 +124,14 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
+        
+        echo "<td class='text-center align-middle'>";
+        echo "<select class='form-control status-dropdown' data-file-id='" . $row['bid'] . "'>";
+        echo "<option value='For review'" . ($row['status'] === 'For review' ? ' selected' : '') . ">For review</option>";
+        echo "<option value='For edit'" . ($row['status'] === 'For edit' ? ' selected' : '') . ">For edit</option>";
+        echo "<option value='Published'" . ($row['status'] === 'Published' ? ' selected' : '') . ">Published</option>";
+        echo "</select>";
+        echo "</td>";
         echo "<td class='text-center align-middle'>";
         echo "<div class='dropdown'>";
         echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
