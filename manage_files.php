@@ -124,14 +124,23 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
         echo "<td class='text-center align-middle'>";
-        echo "<a href='employee/edit_files.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Edit</a>";
-        echo "<a href='delete_files.php?id=" . $row['bid'] . "' class='btn btn-success'>Delete</a>";
+        echo "<div class='dropdown'>";
+        echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
+        echo "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
+        echo "<a class='dropdown-item' href='employee/edit_files.php?id=" . $row['bid'] . "'>Edit</a>";
+        echo "<a class='dropdown-item' href='delete_files.php?id=" . $row['bid'] . "'>Delete</a>";
+        echo "<div class='dropdown-divider'></div>";
+        echo "<a class='dropdown-item' href='admin_view.php?id=" . $row['bid'] . "'>View</a>";
+        echo "<a class='dropdown-item' href='admin_download.php?id=" . $row['bid'] . "'>Download</a>";
+        echo "</div>";
+        echo "</div>";
         echo "</td>";
         echo "<td class='text-center align-middle'>";
         echo "<button type='button' class='btn btn-success open-modal' data-file-id='" . $row['bid'] . "' data-toggle='modal' data-target='#addCommentModal'>Add</button>";
         echo "</td>";
         echo "</tr>";
     }
+    
 
     echo "</tbody>";
     echo "</table>";
@@ -189,9 +198,6 @@ if ($user_result && $user_result->num_rows > 0) {
     ?>
 </div>
 
-
-
-
 <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -248,7 +254,10 @@ $(document).ready(function() {
 });
 </script>
 
+
+
 <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

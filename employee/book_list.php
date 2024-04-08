@@ -51,7 +51,11 @@ if ($user_result && $user_result->num_rows > 0) {
     <title>List of Files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="book_list.css">
-
+    <style>
+    .comment-count {
+        background-color: #343a40; /* Your desired background color */
+    }
+</style>
 </head>
 <body>
 
@@ -71,9 +75,8 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar">
         <div id="sidebar-content">
             <ul>
-                <li><a href="#" class="sidebar-link">Profile</a></li>
+                <li><a href="employee_dashboard.php" class="sidebar-link">Profile</a></li>
                 <li><a href="add_book.php" class="sidebar-link" >Add a File</a></li>
-                <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
         </div>
@@ -119,6 +122,7 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Author</th>";
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'>Year</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Type of Publication</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Status</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Action</th>";
     echo "<th style='width: 20%; font-weight: bold; text-align: center;'>Comments</th>";
     echo "</tr>";
@@ -132,13 +136,16 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
+        
         echo "<td class='text-center align-middle'>";
         echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
         echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
         echo "</td>";
         echo "<td class='text-center align-middle'>";
+        echo "<div class='position-relative d-inline-block'>";
         echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
-        echo " <span class='comment-count'>" . getCommentCount($row['bid']) . "</span>";
+        echo "<span class='comment-count badge badge-pill badge-primary' style='position: absolute; top: -8px; right: -8px; font-size: 75%;'>".getCommentCount($row['bid'])."</span>";
+        echo "</div>";
         echo "</td>";
         echo "</tr>";
     }
@@ -233,8 +240,6 @@ if ($user_result && $user_result->num_rows > 0) {
 $(document).ready(function(){
   $('.comment-btn').click(function(){
     var bid = $(this).data('bid');
-    console.log(bid);
-    // Make an AJAX request to fetch comment data
     $.ajax({
       url: 'view_comments.php', // PHP script to fetch comment data
       method: 'POST',
@@ -256,10 +261,10 @@ $(document).ready(function() {
         // Retrieve selected filter criteria and search keyword
         var filterBy = $("#filter-by").val();
         var searchInput = $("#search-input").val();
-
+        console.log("click")
         // Send AJAX request
         $.ajax({
-            url: "employee/search.php", // Path to your PHP script handling the search
+            url: "search.php", // Path to your PHP script handling the search
             method: "POST",
             data: { filterBy: filterBy, searchInput: searchInput },
             success: function(response) {

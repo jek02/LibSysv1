@@ -74,8 +74,16 @@ while ($row = mysqli_fetch_assoc($res)) {
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['year'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['type_of_publication'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'>";
-    echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
-    echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
+    echo "<div class='dropdown'>";
+    echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
+    echo "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
+    echo "<a class='dropdown-item' href='employee/edit_files.php?id=" . $row['bid'] . "'>Edit</a>";
+    echo "<a class='dropdown-item' href='delete_files.php?id=" . $row['bid'] . "'>Delete</a>";
+    echo "<div class='dropdown-divider'></div>";
+    echo "<a class='dropdown-item' href='admin_view.php?id=" . $row['bid'] . "'>View</a>";
+    echo "<a class='dropdown-item' href='admin_download.php?id=" . $row['bid'] . "'>Download</a>";
+    echo "</div>";
+    echo "</div>";
     echo "</td>";
     echo "<td class='text-center align-middle'>";
     echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";

@@ -68,7 +68,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar">
         <div id="sidebar-content">
             <ul>
-                <li><a href="#" class="sidebar-link" >Profile</a></li>
+                <li><a href="employee_dashboard.php" class="sidebar-link" >Profile</a></li>
                 <li><a href="book_list.php" class="sidebar-link" >View Files</a></li>
                 <!-- Add more sidebar items as needed -->
             </ul>
@@ -120,17 +120,16 @@ if ($user_result && $user_result->num_rows > 0) {
         $file_tmp = $_FILES['bookFile']['tmp_name']; // Get the temporary location of the uploaded file
         $file_destination = "../uploads/" . $file_name; 
         // var_dump($file_tmp, $file_destination); // Uncomment for debugging
-        echo "Temporary file: " . $file_tmp;
         if (move_uploaded_file($file_tmp, $file_destination)) {
             $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
-            echo "Query: " . $query; // Uncomment for debugging
             if (mysqli_query($conn, $query)) {
-                echo "Record inserted successfully";
+                echo "<script>alert('File inserted successfully');</script>";
             } else {
-                echo "Error: " . $query . "<br>" . mysqli_error($conn);
+                $error_message = "Error: " . $query . "<br>" . mysqli_error($conn);
+                echo "<script>alert('$error_message');</script>";
             }
         } else {
-            echo "File upload failed";
+            echo "<script>alert('File upload failed');</script>";
         }
     }
 ?>
