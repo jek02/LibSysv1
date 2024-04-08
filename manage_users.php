@@ -136,7 +136,9 @@ if ($user_result && $user_result->num_rows > 0) {
     }
 
     for ($i = 1; $i <= $total_pages; $i++) {
-        echo "<li class='page-item'><a class='page-link' href='?page=" . $i . "'>" . $i . "</a></li>";
+        // Add class 'active' to the current page link
+        $active_class = ($i == $page) ? "active" : "";
+        echo "<li class='page-item $active_class'><a class='page-link' href='?page=" . $i . "'>" . $i . "</a></li>";
     }
 
     if ($page < $total_pages) {
@@ -169,6 +171,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 
 </body>
 </html>

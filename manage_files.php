@@ -136,7 +136,6 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "</tbody>";
     echo "</table>";
     echo "</div>";
-    
 
     // Pagination indicators
     echo "<div class='text-center'>";
@@ -148,23 +147,49 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<a href='?page=$prevPage' class='btn btn-secondary mr-2'>Previous</a>";
     }
 
-    // Check if there are more records beyond the current page
-    $nextPage = $page + 1;
+    // Calculate total number of pages
     $sqlCount = "SELECT COUNT(*) AS total FROM `Files`";
     $resultCount = mysqli_query($conn, $sqlCount);
     $dataCount = mysqli_fetch_assoc($resultCount);
     $totalRows = $dataCount['total'];
-    $lastPage = ceil($totalRows / $limit);
-    if ($nextPage <= $lastPage) {
-        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2'>$currentPage</a>";
+    $totalPages = ceil($totalRows / $limit);
+
+    // Display page numbers with navigation
+    $startPage = max(1, $currentPage - 1);
+    $endPage = min($totalPages, $startPage + 2);
+
+    // Display page numbers with "Previous" button
+    for ($i = $startPage; $i <= $endPage; $i++) {
+        if ($i == $currentPage) {
+            echo "<a href='?page=$i' class='btn btn-secondary mx-2 active'>$i</a>";
+        } else {
+            echo "<a href='?page=$i' class='btn btn-secondary mx-2'>$i</a>";
+        }
+    }
+
+    // Display ellipsis if there are more pages before the last page
+    if ($endPage < $totalPages - 1) {
+        echo "<span class='btn btn-secondary mx-2 disabled'>...</span>";
+    }
+
+    // Display last page number if not already displayed
+    if ($endPage != $totalPages) {
+        echo "<a href='?page=$totalPages' class='btn btn-secondary mx-2'>$totalPages</a>";
+    }
+
+    // Display "Next" button
+    if ($currentPage < $totalPages) {
+        $nextPage = $currentPage + 1;
         echo "<a href='?page=$nextPage' class='btn btn-secondary'>Next</a>";
     } else {
-        echo "<a href='?page=$currentPage' class='btn btn-secondary mx-2 disabled'>$currentPage</a>";
         echo "<a href='#' class='btn btn-secondary disabled'>Next</a>";
     }
+
     echo "</div>";
     ?>
 </div>
+
+
 
 
 <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="addCommentModalLabel" aria-hidden="true">
