@@ -62,7 +62,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="background-container"></div>
 
     <div id="topbar">
-        <h2>PSA-CAR SOCD LibSys</h2>
+        <h2>LibSys</h2>
         <div class="dropdown">
             <img src="../ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">

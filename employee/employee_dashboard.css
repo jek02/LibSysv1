@@ -62,8 +62,8 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 35px;
-    text-align: center;
+    padding: 5px;
+    text-align: left;
     position: fixed;
     top: 0;
     left: 0;
@@ -75,6 +75,15 @@ body {
     font-weight: normal; /* Add this rule to set the font weight to normal */
     font-size: 30px; /* Add this rule to increase the font size */
     margin-top: 15px;
+    font-family: fantasy;
+    padding-left: 20px;
+    padding-top: 5px;
+    text-shadow: 
+    -1px -1px 0 #000000,  
+    1px -1px 0 #000000,
+   -1px  1px 0 #020000,
+    1px  1px 0 #000000;
+    font-size: 45px;
 }
 
 #topbar .dropdown-content {
@@ -144,6 +153,8 @@ body {
 #sidebar-content {
     margin-top: 80px;
     margin-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 19px;
 }
 
 .sidebar-link {
@@ -154,6 +165,10 @@ body {
 
 .sidebar-link:hover {
     transform: scale(1.1); /* Scale up the size on hover */
+}
+
+#sidebar-content a:hover {
+    color: yellow;
 }
 
 #content-container {
@@ -171,13 +186,19 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-right: 20px; /* Add margin between summary boxes */
     margin-top: 20px;
+    
 }
+
+
 
 .summary-box h3 {
     margin-top: 10px;
     display: flex;
     align-items: center;
     margin-left: 10px;
+}
+.summary-box h3:hover{
+    color: blue;
 }
 
 .summary-box img {

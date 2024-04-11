@@ -67,7 +67,7 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 <div id="background-container"></div>
 
 <div id="topbar">
-    <h2>PSA-CAR SOCD LibSys</h2>
+    <h2>LibSys</h2>
     <div class="dropdown">
         <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
         <div class="dropdown-content">
@@ -91,21 +91,31 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 
 <div id="content-container">
     <a href="manage_files.php" style="color: black;">
-    <div class="summary-box">
-        <h3>
-            <img src="files_icon.png" alt="Files Icon">
-            Total Files: <?php echo $file_count; ?>
-        </h3>
-    </div>
+        <div class="summary-box" onclick="handleClick(this)">
+            <h3>
+                <img src="files_icon.png" alt="Files Icon">
+                Total Files: <?php echo $file_count; ?>
+            </h3>
+        </div>
+    </a>   
+
     <a href="manage_users.php" style="color: black;">
-    <div class="summary-box">
-        <h3>
-            <img src="users_icon.png" alt="Users Icon">
-            Total Users: <?php echo $user_count; ?>
-        </h3>
-    </div>
+        <div class="summary-box" onclick="handleClick(this)">
+            <h3>
+                <img src="users_icon.png" alt="Users Icon">
+                Total Users: <?php echo $user_count; ?>
+            </h3>
+        </div>
+    </a>
     <!-- Add more summary boxes here -->
 </div>
+
+
+<script>
+    function handleClick(element) {
+        element.style.color = "blue";
+    }
+</script>
 
 </body>
 </html>

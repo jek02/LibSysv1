@@ -62,7 +62,7 @@ $file_count = $file_result->fetch_assoc()['file_count'];
 <div id="background-container"></div>
 
 <div id="topbar">
-    <h2>PSA-CAR SOCD LibSys</h2>
+    <h2>LibSys</h2>
     <div class="dropdown">
         <img src="../ICON-4.png" alt="Dropdown Icon" width="68" height="68">
         <div class="dropdown-content">
@@ -83,9 +83,9 @@ $file_count = $file_result->fetch_assoc()['file_count'];
 </div>
 
 
-<div id="content-container" onclick="handleClick()">
+<div id="content-container">
     <a href="book_list.php" style="color: black;">
-        <div class="summary-box">
+        <div class="summary-box" id="summary-box" onclick="handleClick()"> <!-- Add id here -->
             <h3>
                 <img src="../files_icon.png" alt="Files Icon">
                 Total Files: <?php echo $file_count; ?>

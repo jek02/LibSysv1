@@ -47,7 +47,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/manage_files.css"> 
+    <link rel="stylesheet" href="css/manage_users.css"> 
     <!-- Add your CSS links and other meta tags here -->
 </head>
 <body>
@@ -55,7 +55,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="background-container"></div>
 
     <div id="topbar">
-        <h2>PSA-CAR SOCD LibSys</h2>
+        <h2>LibSys</h2>
         <div class="dropdown">
             <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
