@@ -54,8 +54,8 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 25px;
-    padding-bottom: 45px;
+    padding: 5px;
+    padding-bottom: 35px;
     text-align: left;
     position: fixed;
     top: 0;
@@ -67,6 +67,15 @@ body {
     font-weight: normal; /* Add this rule to set the font weight to normal */
     font-size: 30px; /* Add this rule to increase the font size */
     margin-top: 15px;
+    font-family: fantasy;
+    padding-left: 20px;
+    padding-top: 5px;
+    text-shadow: 
+    -1px -1px 0 #000000,  
+    1px -1px 0 #000000,
+   -1px  1px 0 #020000,
+    1px  1px 0 #000000;
+    font-size: 45px;
 }
 #topbar .dropdown {
     position: absolute;
@@ -104,9 +113,10 @@ body {
 #sidebar {
     background-color: #2565AE;
     color: #fff;
-    padding: 10px;
+    padding: 15px;
     z-index: 999;
-    width: 175px;
+    width: 155px;
+    margin-top: 10px;
 }
 
 #sidebar h1 {
@@ -129,11 +139,18 @@ body {
     text-decoration: none;
     display: block;
     padding: 5px 0;
+    font-size: 18px;
 }
 
 #sidebar-content {
-    margin-top: 92px;
+    margin-top: 80px;
     margin-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
+
+#sidebar-content a:hover {
+    color: yellow;
 }
 
 .sidebar-link {
@@ -147,21 +164,27 @@ body {
 }
 
 #content {
-    margin-top:65;
-    padding: 20px;
+    margin-top: 80px; /* Adjusted to accommodate topbar */
+    margin-left: 190px; /* Adjusted to accommodate sidebar width */
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin-top: 90px; /* Adjusted to accommodate topbar */
-    margin-left: 240px; /* Adjusted to accommodate sidebar width */
-    margin-right: 20px; /* Adjusted to create space between sidebar and content */
 }
 
+#content h2{
+    text-align: center;
+    font-size: 54px;
+    padding-top: 20px;
+    color: rgb(16, 56, 131); /* Dark grey color */
+    text-shadow: 
+    -1px -1px 0 #ffffff,  
+    1px -1px 0 #ffffff,
+   -1px  1px 0 #ffffff,
+    1px  1px 0 #ffffff;
+    margin-top: 20px; /* Add some top margin for spacing */
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-#content h2 {
-    margin-top: 30px;
-    color: #000000;
 }
 
 #book-list {

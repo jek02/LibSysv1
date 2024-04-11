@@ -62,8 +62,7 @@ body {
 #topbar {
     background-color: #0f5298;
     color: #fff;
-    padding: 25px;
-    padding-bottom: 30px;
+    padding: 5px;
     text-align: left;
     position: fixed;
     top: 0;
@@ -76,6 +75,15 @@ body {
     font-weight: normal; /* Add this rule to set the font weight to normal */
     font-size: 30px; /* Add this rule to increase the font size */
     margin-top: 15px;
+    font-family: fantasy;
+    padding-left: 20px;
+    padding-top: 5px;
+    text-shadow: 
+    -1px -1px 0 #000000,  
+    1px -1px 0 #000000,
+   -1px  1px 0 #020000,
+    1px  1px 0 #000000;
+    font-size: 45px;
 }
 
 #topbar .dropdown-content {
@@ -145,6 +153,12 @@ body {
 #sidebar-content {
     margin-top: 80px;
     margin-left: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+}
+
+#sidebar-content a:hover {
+    color: yellow;
 }
 
 .sidebar-link {
@@ -179,6 +193,10 @@ body {
     display: flex;
     align-items: center;
     margin-left: 10px;
+}
+
+.summary-box h3:hover {
+    color: blue;
 }
 
 .summary-box img {
