@@ -38,7 +38,6 @@ if ($user_result && $user_result->num_rows > 0) {
 }
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -82,10 +81,11 @@ if ($user_result && $user_result->num_rows > 0) {
 
     <div id="search-container" class="mt-4 d-flex justify-content-between align-items-center" style="width: 100%;">
         <select class="form-control mr-2" id="filter-by" style="width: 40%;">
-            <option value="catalog">Library Catalog</option>
+        <option value="catalog">Library Catalog</option>
+            <option value="status">Status</option>
             <option value="filename">File Name</option>
-            <option value="author">Author</option>
-            <option value="year">Year</option>
+            <option value="author">Uploaded by</option>
+            <option value="year">Date Uploaded</option>
             <option value="typeofpublication">Type of Publication</option>
         </select>
         <input type="text" class="form-control mr-2 shadow" id="search-input" placeholder="Search..." style="width: 200%;">
@@ -128,10 +128,11 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<td class='text-center align-middle'>";
         echo "<select class='form-control status-dropdown' data-file-id='" . $row['bid'] . "'>";
         echo "<option value='For review'" . ($row['status'] === 'For review' ? ' selected' : '') . ">For review</option>";
-        echo "<option value='For edit'" . ($row['status'] === 'For edit' ? ' selected' : '') . ">For edit</option>";
+        echo "<option value='For revise'" . ($row['status'] === 'For revise' ? ' selected' : '') . ">For revise</option>";
         echo "<option value='Published'" . ($row['status'] === 'Published' ? ' selected' : '') . ">Published</option>";
         echo "</select>";
         echo "</td>";
+
         echo "<td class='text-center align-middle'>";
         echo "<div class='dropdown'>";
         echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
@@ -233,7 +234,8 @@ if ($user_result && $user_result->num_rows > 0) {
 
 <script>
 $(document).ready(function() {
-    $('.open-modal').click(function() {
+    // Use event delegation to handle click events for dynamically added elements
+    $('#content').on('click', '.open-modal', function() {
         // Get the value of data-file-id attribute from the clicked button
         var fileId = $(this).data('file-id');
         console.log("File ID:", fileId);
@@ -256,11 +258,27 @@ $(document).ready(function() {
             data: { filterBy: filterBy, searchInput: searchInput },
             success: function(response) {
                 // Update table with search results
-                $("#file-table-body").html(response);
+                $("#file-table-body").html(response);},
+            error: function(xhr, status, error) {
+                // Handle error
+                console.error(error);
             }
         });
     });
 });
+
+$(document).ready(function() {
+    $('.status-dropdown').change(function() {
+        var status = $(this).val();
+        var fileId = $(this).data('file-id');
+
+        $.ajax({
+            url: 'update_status.php',
+            method: 'POST',
+            data: { status: status, fileId: fileId },
+        });
+    });
+});     
 </script>
 
 

@@ -86,11 +86,12 @@ if ($user_result && $user_result->num_rows > 0) {
     <h2>List of Files</h2>
 
     <div id="search-container" class="mt-4 d-flex justify-content-between align-items-center" style="width: 100%;">
-        <select class="form-control mr-2" id="filter-by" style="width: 40%;">
+        <select class="form-control mr-2" id="filter-by" style="width: 40%;">           
             <option value="catalog">Library Catalog</option>
+            <option value="status">Status</option>
             <option value="filename">File Name</option>
-            <option value="author">Author</option>
-            <option value="year">Year</option>
+            <option value="author">Uploaded by</option>
+            <option value="year">Date Uploaded</option>
             <option value="typeofpublication">Type of Publication</option>
         </select>
         <input type="text" class="form-control mr-2 shadow" id="search-input" placeholder="Search..." style="width: 200%;">
@@ -130,13 +131,28 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<tbody id='file-table-body'>";
 
     while ($row = mysqli_fetch_assoc($res)) {
+        $color = '';
+        switch ($row['status']) {
+            case 'For review':
+                $color = 'red';
+                break;
+            case 'For revise':
+                $color = 'orange';
+                break;
+            case 'Published':
+                $color = 'blue';
+                break;
+            default:
+                // No specific color for other statuses
+                break;
+        }
         echo "<tr>";
         echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
         echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
-        echo "<td class='text-center align-middle'><b>" . $row['status'] . "</b></td>";
+        echo "<td class='text-center align-middle' style='color: $color;'><b>" . $row['status'] . "</b></td>";
         echo "<td class='text-center align-middle'>";
         echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
         echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
@@ -238,22 +254,24 @@ if ($user_result && $user_result->num_rows > 0) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-  $('.comment-btn').click(function(){
-    var bid = $(this).data('bid');
-    $.ajax({
-      url: 'view_comments.php', // PHP script to fetch comment data
-      method: 'POST',
-      data: { bid: bid },
-      success: function(response){
-        // Update the modal body with the fetched comment data
-        $('#commentBody').html(response);
-        
-        // Show the modal
-        $('#commentModal').modal('show');
-      }
+    // Use event delegation to handle click events for dynamically added elements
+    $('#content').on('click', '.comment-btn', function(){
+        var bid = $(this).data('bid');
+        $.ajax({
+            url: 'view_comments.php', // PHP script to fetch comment data
+            method: 'POST',
+            data: { bid: bid },
+            success: function(response){
+                // Update the modal body with the fetched comment data
+                $('#commentBody').html(response);
+                
+                // Show the modal
+                $('#commentModal').modal('show');
+            }
+        });
     });
-  });
 });
+
 
 $(document).ready(function() {
     // Attach click event listener to search button
@@ -274,8 +292,8 @@ $(document).ready(function() {
         });
     });
 });
+
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>

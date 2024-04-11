@@ -90,12 +90,14 @@ $user_count = $user_result->fetch_assoc()['user_count'];
 </div>
 
 <div id="content-container">
+    <a href="manage_files.php" style="color: black;">
     <div class="summary-box">
         <h3>
             <img src="files_icon.png" alt="Files Icon">
             Total Files: <?php echo $file_count; ?>
         </h3>
     </div>
+    <a href="manage_users.php" style="color: black;">
     <div class="summary-box">
         <h3>
             <img src="users_icon.png" alt="Users Icon">

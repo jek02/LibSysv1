@@ -1,6 +1,8 @@
 <?php
 // Start the session
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Check if user is logged in and has employee role, else redirect to login page
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'EMPLOYEE') {
@@ -84,8 +86,8 @@ if ($user_result && $user_result->num_rows > 0) {
         
         <input type="hidden" name="author" value="<?php echo htmlspecialchars($username); ?>">
         
-        <label for="">Year:</label>
-        <input type="number" name="year" required>
+        
+        <input type="hidden" name="year">
         
         <label for="">Type of Publication:</label>
         <input type="text" name="type_of_publication" required>
@@ -111,27 +113,39 @@ if ($user_result && $user_result->num_rows > 0) {
     }
 
     if(isset($_POST['submit'])) {
-        $name = mysqli_real_escape_string($conn, $_POST['name']);
-        $author = mysqli_real_escape_string($conn, $_POST['author']);
-        $year = mysqli_real_escape_string($conn, $_POST['year']);
-        $type_of_publication = mysqli_real_escape_string($conn, $_POST['type_of_publication']);
-
+        // Prepare the SQL statement with placeholders
+        $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES (?, ?, ?, ?, ?)";
+    
+        // Bind the parameters
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $name, $author, $year, $type_of_publication, $file_destination);
+    
+        // Escape and retrieve form data
+        $name = $_POST['name'];
+        $author = $_POST['author'];
+        
+        // Format the current date as 'YYYY-MM-DD'
+        $year = date('Y-m-d');
+        
+        $type_of_publication = $_POST['type_of_publication'];
         $file_name = $_FILES['bookFile']['name']; // Get the name of the uploaded file
         $file_tmp = $_FILES['bookFile']['tmp_name']; // Get the temporary location of the uploaded file
         $file_destination = "../uploads/" . $file_name; 
-        // var_dump($file_tmp, $file_destination); // Uncomment for debugging
+    
+        // Move uploaded file and execute the prepared statement
         if (move_uploaded_file($file_tmp, $file_destination)) {
-            $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES ('$name', '$author', '$year', '$type_of_publication', '$file_destination')";
-            if (mysqli_query($conn, $query)) {
+            // Execute the prepared statement
+            if ($stmt->execute()) {
                 echo "<script>alert('File inserted successfully');</script>";
             } else {
-                $error_message = "Error: " . $query . "<br>" . mysqli_error($conn);
+                $error_message = "Error: " . $stmt->error;
                 echo "<script>alert('$error_message');</script>";
             }
         } else {
             echo "<script>alert('File upload failed');</script>";
         }
     }
+    
 ?>
 
 </body>

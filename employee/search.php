@@ -32,13 +32,16 @@ $searchInput = $_POST['searchInput'];
 $sql = "SELECT * FROM `Files`";
 if ($filterBy === "catalog") {
     // Search all fields
-    $sql .= " WHERE CONCAT(name, author, year, type_of_publication) LIKE '%$searchInput%'";
+    $sql .= " WHERE CONCAT(name, author, status, year, type_of_publication) LIKE '%$searchInput%'";
 } elseif ($filterBy === "filename") {
     // Filter by File Name
     $sql .= " WHERE name LIKE '%$searchInput%'";
 } elseif ($filterBy === "author") {
     // Filter by Author
     $sql .= " WHERE author LIKE '%$searchInput%'";
+} elseif ($filterBy === "status") {
+    // Filter by status
+    $sql .= " WHERE status LIKE '%$searchInput%'";
 } elseif ($filterBy === "year") {
     // Filter by Year
     $sql .= " WHERE year LIKE '%$searchInput%'";
@@ -73,13 +76,16 @@ while ($row = mysqli_fetch_assoc($res)) {
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['author'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['year'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['type_of_publication'], $searchInput) . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['status'], $searchInput). "</b></td>";
     echo "<td class='text-center align-middle'>";
     echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
     echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
     echo "</td>";
     echo "<td class='text-center align-middle'>";
+    echo "<div class='position-relative d-inline-block'>";
     echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
-    echo " <span class='comment-count'>" . getCommentCount($row['bid']) . "</span>";
+    echo "<span class='comment-count badge badge-pill badge-primary' style='position: absolute; top: -8px; right: -8px; font-size: 75%;'>".getCommentCount($row['bid'])."</span>";
+    echo "</div>";
     echo "</td>";
     echo "</tr>";
 }

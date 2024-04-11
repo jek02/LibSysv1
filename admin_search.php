@@ -32,13 +32,16 @@ $searchInput = $_POST['searchInput'];
 $sql = "SELECT * FROM `Files`";
 if ($filterBy === "catalog") {
     // Search all fields
-    $sql .= " WHERE CONCAT(name, author, year, type_of_publication) LIKE '%$searchInput%'";
+    $sql .= " WHERE CONCAT(name, author, year, status, type_of_publication) LIKE '%$searchInput%'";
 } elseif ($filterBy === "filename") {
     // Filter by File Name
     $sql .= " WHERE name LIKE '%$searchInput%'";
 } elseif ($filterBy === "author") {
     // Filter by Author
     $sql .= " WHERE author LIKE '%$searchInput%'";
+} elseif ($filterBy === "status") {
+    // Filter by status
+    $sql .= " WHERE status LIKE '%$searchInput%'";
 } elseif ($filterBy === "year") {
     // Filter by Year
     $sql .= " WHERE year LIKE '%$searchInput%'";
@@ -74,6 +77,13 @@ while ($row = mysqli_fetch_assoc($res)) {
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['year'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'><b>" . highlightKeyword($row['type_of_publication'], $searchInput) . "</b></td>";
     echo "<td class='text-center align-middle'>";
+    echo "<select class='form-control status-dropdown' data-file-id='" . $row['bid'] . "'>";
+    echo "<option value='For review'" . ($row['status'] === 'For review' ? ' selected' : '') . ">For review</option>";
+    echo "<option value='For revise'" . ($row['status'] === 'For revise' ? ' selected' : '') . ">For revise</option>";
+    echo "<option value='Published'" . ($row['status'] === 'Published' ? ' selected' : '') . ">Published</option>";
+    echo "</select>";
+    echo "</td>";
+    echo "<td class='text-center align-middle'>";
     echo "<div class='dropdown'>";
     echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
     echo "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
@@ -86,8 +96,7 @@ while ($row = mysqli_fetch_assoc($res)) {
     echo "</div>";
     echo "</td>";
     echo "<td class='text-center align-middle'>";
-    echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
-    echo " <span class='comment-count'>" . getCommentCount($row['bid']) . "</span>";
+    echo "<button type='button' class='btn btn-success open-modal' data-file-id='" . $row['bid'] . "' data-toggle='modal' data-target='#addCommentModal'>Add</button>";
     echo "</td>";
     echo "</tr>";
 }

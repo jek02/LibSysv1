@@ -82,25 +82,23 @@ $file_count = $file_result->fetch_assoc()['file_count'];
     </div>
 </div>
 
-<a href="book_list.php" style="color: black;">
-    <div id="content-container" onclick="handleClick()">
+
+<div id="content-container" onclick="handleClick()">
+    <a href="book_list.php" style="color: black;">
         <div class="summary-box">
             <h3>
                 <img src="../files_icon.png" alt="Files Icon">
                 Total Files: <?php echo $file_count; ?>
             </h3>
-        </div>      
-        <!-- Add more summary boxes here -->
-    </div>
-</a>
+        </div>   
+    </a>   
+    <!-- Add more summary boxes here -->
+</div>
+
 
 <script>
     function handleClick() {
-        // Change text color to blue
-        document.getElementById("content-container").style.color = "blue";
-        
-        // Add your code to execute when the div is clicked
-        // (The click will trigger the link defined in the parent <a> tag)
+        document.getElementById("summary-box").style.color = "blue";
     }
 </script>
 
