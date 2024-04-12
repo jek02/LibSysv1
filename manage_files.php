@@ -69,7 +69,7 @@ if ($user_result && $user_result->num_rows > 0) {
     <div id="sidebar-content">
         <ul style="margin-top: 50px;">
             <li><a href="admin_dashboard.php" class="sidebar-link">Home</a></li>
-            <li style="margin-top: 20px;"> <a href="add_book_admin.php" class="sidebar-link">Add Files</a></li>
+            <li style="margin-top: 20px;"> <a href="employee/add_book_admin.php" class="sidebar-link">Add Files</a></li>
 
             <!-- Add more options here -->
         </ul>
@@ -140,8 +140,8 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<a class='dropdown-item' href='employee/edit_files.php?id=" . $row['bid'] . "'>Edit</a>";
         echo "<a class='dropdown-item' href='delete_files.php?id=" . $row['bid'] . "'>Delete</a>";
         echo "<div class='dropdown-divider'></div>";
-        echo "<a class='dropdown-item' href='admin_view.php?id=" . $row['bid'] . "'>View</a>";
-        echo "<a class='dropdown-item' href='admin_download.php?id=" . $row['bid'] . "'>Download</a>";
+        echo "<a class='dropdown-item' href='employee/view.php?id=" . $row['bid'] . "'>View</a>";
+        echo "<a class='dropdown-item' href='employee/ownload.php?id=" . $row['bid'] . "'>Download</a>";
         echo "</div>";
         echo "</div>";
         echo "</td>";

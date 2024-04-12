@@ -36,7 +36,14 @@
                 case 'png':
                     $content_type = 'image/png';
                     break;
-                // Add more cases for other file types as needed
+                case 'doc':
+                case 'docx':
+                    $content_type = 'application/msword';
+                    break;
+                case 'xls':
+                case 'xlsx':
+                    $content_type = 'application/vnd.ms-excel';
+                    break;
                 default:
                     $content_type = 'application/octet-stream';
                     break;

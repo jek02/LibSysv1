@@ -113,25 +113,51 @@ if ($user_result && $user_result->num_rows > 0) {
     }
 
     if(isset($_POST['submit'])) {
-        // Prepare the SQL statement with placeholders
-        $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES (?, ?, ?, ?, ?)";
-    
-        // Bind the parameters
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssss", $name, $author, $year, $type_of_publication, $file_destination);
-    
         // Escape and retrieve form data
         $name = $_POST['name'];
         $author = $_POST['author'];
-        
         // Format the current date as 'YYYY-MM-DD'
         $year = date('Y-m-d');
-        
         $type_of_publication = $_POST['type_of_publication'];
-        $file_name = $_FILES['bookFile']['name']; // Get the name of the uploaded file
-        $file_tmp = $_FILES['bookFile']['tmp_name']; // Get the temporary location of the uploaded file
-        $file_destination = "../uploads/" . $file_name; 
-    
+        
+        // Get the file name and temporary location
+        $file_name = $_FILES['bookFile']['name'];
+        $file_tmp = $_FILES['bookFile']['tmp_name'];
+        
+        // Determine the subdirectory based on file type
+        $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        switch($file_extension) {
+            case 'pdf':
+                $subdirectory = 'pdfs';
+                break;
+            case 'doc':
+            case 'docx':
+                $subdirectory = 'docs';
+                break;
+            case 'xls':
+            case 'xlsx':
+                $subdirectory = 'excels';
+                break;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                $subdirectory = 'images';
+                break;
+            default:
+                $subdirectory = 'others';
+                break;
+        }
+        
+        // Set the file destination including the subdirectory
+        $file_destination = "../uploads/$subdirectory/$file_name";
+        
+        // Prepare the SQL statement with placeholders
+        $query = "INSERT INTO Files (name, author, year, type_of_publication, files) VALUES (?, ?, ?, ?, ?)";
+        
+        // Bind the parameters
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $name, $author, $year, $type_of_publication, $file_destination);
+        
         // Move uploaded file and execute the prepared statement
         if (move_uploaded_file($file_tmp, $file_destination)) {
             // Execute the prepared statement
@@ -145,6 +171,7 @@ if ($user_result && $user_result->num_rows > 0) {
             echo "<script>alert('File upload failed');</script>";
         }
     }
+    
     
 ?>
 

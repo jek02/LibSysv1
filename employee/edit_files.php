@@ -40,41 +40,74 @@ if(isset($_POST['submit'])) {
     $type_of_publication = $_POST['type_of_publication'];
 
     // Handle file upload if a new file is selected
-    if($_FILES['file']['error'] == 0) {
-        $file_name = $_FILES['file']['name'];
-        $file_tmp = $_FILES['file']['tmp_name'];
-        $file_type = $_FILES['file']['type'];
-        $file_size = $_FILES['file']['size'];
-        $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
-        $new_file_name = uniqid() . '.' . $file_ext;
-        $upload_path = '../uploads/' . $new_file_name;
+    if($_FILES['bookFile']['error'] == 0) {
+        // Determine the subdirectory based on file type
+        $file_extension = strtolower(pathinfo($_FILES['bookFile']['name'], PATHINFO_EXTENSION));
+        switch($file_extension) {
+            case 'pdf':
+                $subdirectory = 'pdfs';
+                break;
+            case 'doc':
+            case 'docx':
+                $subdirectory = 'docs';
+                break;
+            case 'xls':
+            case 'xlsx':
+                $subdirectory = 'excels';
+                break;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+                $subdirectory = 'images';
+                break;
+            default:
+                $subdirectory = 'others';
+                break;
+        }
+        
+        // Set the upload directory including the subdirectory
+        $upload_directory = '../uploads/' . $subdirectory;
+
+        // Check if the directory exists, if not, create it
+        if (!file_exists($upload_directory)) {
+            mkdir($upload_directory, 0777, true);
+        }
+
+        // Generate a unique file name
+        $new_file_name = uniqid() . '.' . $file_extension;
+        $upload_path = $upload_directory . '/' . $new_file_name;
 
         // Move uploaded file to specified directory
-        if(move_uploaded_file($file_tmp, $upload_path)) {
+        if(move_uploaded_file($_FILES['bookFile']['tmp_name'], $upload_path)) {
             // Update file details in the database
-            $sql = "UPDATE Files SET name='$name', author='$author', year=$year, type_of_publication='$type_of_publication', files='$upload_path' WHERE bid=$id";
-            if(mysqli_query($conn, $sql)) {
+            $sql = "UPDATE Files SET name=?, author=?, year=?, type_of_publication=?, files=? WHERE bid=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sssssi", $name, $author, $year, $type_of_publication, $upload_path, $id);
+            if($stmt->execute()) {
                 // Redirect to a specific page after updating
                 header("Location: ../manage_files.php");
                 exit();
             } else {
-                echo "Error updating file details: " . mysqli_error($conn);
+                echo "Error updating file details: " . $stmt->error;
             }
         } else {
             echo "Error uploading file.";
         }
     } else {
         // Update file details in the database without changing the file upload
-        $sql = "UPDATE Files SET name='$name', author='$author', year=$year, type_of_publication='$type_of_publication' WHERE bid=$id";
-        if(mysqli_query($conn, $sql)) {
+        $sql = "UPDATE Files SET name=?, author=?, year=?, type_of_publication=? WHERE bid=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssi", $name, $author, $year, $type_of_publication, $id);
+        if($stmt->execute()) {
             // Redirect to a specific page after updating
             header("Location: ../manage_files.php");
             exit();
         } else {
-            echo "Error updating file details: " . mysqli_error($conn);
+            echo "Error updating file details: " . $stmt->error;
         }
     }
 }
+
 
 // Fetch file details if ID is provided
 $fileDetails = null;
@@ -100,7 +133,7 @@ if(isset($_GET['id'])) {
 <div id="background-container"></div>
 
     <div id="topbar">
-        <h2>PSA-CAR SOCD LibSys</h2>
+        <h2>LibSys</h2>
         <div class="dropdown">
             <img src="../ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
@@ -115,7 +148,7 @@ if(isset($_GET['id'])) {
         <ul style="margin-top: 50px;">
             <li><a href="../admin_dashboard.php" class="sidebar-link">Home</a></li>
             <li style="margin-top: 20px;"> <a href="../manage_files.php" class="sidebar-link">View Files</a></li>
-            <li style="margin-top: 20px;"> <a href="../add_book_admin.php" class="sidebar-link">Add Files</a></li>
+            <li style="margin-top: 20px;"> <a href="add_book_admin.php" class="sidebar-link">Add Files</a></li>
 
             <!-- Add more options here -->
         </ul>
@@ -125,24 +158,24 @@ if(isset($_GET['id'])) {
     <div id="content">
     <h2>Edit File</h2>
     <form action="" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?php echo $fileDetails['bid']; ?>">
-        <label for="name">File Name:</label>
-        <input type="text" id="name" name="name" value="<?php echo $fileDetails['name']; ?>" required>
         
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" value="<?php echo $fileDetails['author']; ?>" required>
+    <label for="name">File Name:</label>
+    <input type="text" name="name" id="name" value="<?php echo isset($fileDetails['name']) ? htmlspecialchars($fileDetails['name']) : ''; ?>" required>
         
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" value="<?php echo $fileDetails['year']; ?>" required>
-        
-        <label for="type_of_publication">Type of Publication:</label>
-        <input type="text" id="type_of_publication" name="type_of_publication" value="<?php echo $fileDetails['type_of_publication']; ?>" required>
+    <input type="hidden" name="author" value="<?php echo isset($fileDetails['author']) ? htmlspecialchars($fileDetails['author']) : ''; ?>">
+    
+    <input type="hidden" name="year" value="<?php echo isset($fileDetails['year']) ? htmlspecialchars($fileDetails['year']) : ''; ?>">
+    
+    <label for="type_of_publication">Type of Publication:</label>
+    <input type="text" name="type_of_publication" id="type_of_publication" value="<?php echo isset($fileDetails['type_of_publication']) ? htmlspecialchars($fileDetails['type_of_publication']) : ''; ?>" required>
 
-        <label for="file">Upload File:</label>
-        <input type="file" id="file" name="file">
-
-        <input type="submit" name="submit" value="Update">
-    </form>
+    <label for="bookFile">Upload File:</label>
+    <input type="file" id="bookFile" name="bookFile" accept=".pdf, .doc, .docx">
+    
+    <input type="hidden" name="id" value="<?php echo isset($fileDetails['bid']) ? $fileDetails['bid'] : ''; ?>">
+    
+    <input type="submit" name="submit" value="Update File">
+</form>
 </div>
 </body>
 </html>
