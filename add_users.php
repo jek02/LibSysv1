@@ -50,7 +50,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="background-container"></div>
 
     <div id="topbar">
-        <h2>LibSys</h2>
+        <h2><a href="admin_dashboard.php">LibSys</a></h2>
         <div class="dropdown">
             <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
@@ -74,6 +74,9 @@ if ($user_result && $user_result->num_rows > 0) {
     <h2>Add a Users</h2>
     <form action="" method="post" enctype="multipart/form-data">
         
+        <label for="">Name:</label>
+        <input type="text" name="name" required>
+
         <label for="">Username:</label>
         <input type="text" name="username" required>
         
@@ -97,6 +100,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
+    $name = $_POST['name'];
     $username = $_POST['username'];
     $password1 = $_POST['password1'];
     $password2 = $_POST['password2'];
@@ -108,8 +112,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
 
         // Prepare and execute SQL statement to insert data into the database
-        $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $password1, $role);
+        $stmt = $conn->prepare("INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $username, $password1, $role);
 
         if ($stmt->execute()) {
             header("Location: manage_users.php");

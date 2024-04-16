@@ -32,10 +32,13 @@ $searchInput = $_POST['searchInput'];
 $sql = "SELECT * FROM `users`";
 if ($filterBy === "catalog") {
     // Search all fields
-    $sql .= " WHERE CONCAT(username, role) LIKE '%$searchInput%'";
+    $sql .= " WHERE CONCAT(name, username, role) LIKE '%$searchInput%'";
 } elseif ($filterBy === "username") {
     // Filter by File Name
     $sql .= " WHERE username LIKE '%$searchInput%'";
+} elseif ($filterBy === "name") {
+    // Filter by File Name
+    $sql .= " WHERE name LIKE '%$searchInput%'";
 } elseif ($filterBy === "role") {
     // Filter by Author
     $sql .= " WHERE role LIKE '%$searchInput%'";
@@ -61,7 +64,7 @@ function highlightKeyword($content, $keyword) {
 
 while ($row = mysqli_fetch_assoc($res)) {
     echo "<tr style='background-color: white;'>";
-        echo "<td>" . $row['user_id'] . "</td>";
+        echo "<td>" . highlightKeyword($row['name'], $searchInput) . "</td>";
         echo "<td>" . highlightKeyword($row['username'], $searchInput) . "</td>";
         echo "<td>" . $row['password'] . "</td>";
         echo "<td>" . highlightKeyword($row['role'], $searchInput) . "</td>";

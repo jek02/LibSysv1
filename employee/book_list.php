@@ -114,60 +114,70 @@ if ($user_result && $user_result->num_rows > 0) {
         LIMIT $offset, $limit";
     $res = mysqli_query($conn, $sql);
 
+
     echo "<div class='table-responsive'>";
     echo "<table class='table table-bordered table-hover'>";
     echo "<thead class='thead-light'>";
     echo "<tr>";
-    echo "<th style='width: 5%; font-weight: bold; text-align: center;'class='text-center align-middle'>ID</th>";
-    echo "<th style='width: 25%; font-weight: bold; text-align: center;'class='text-center align-middle'>File Name</th>";
-    echo "<th style='width: 15%; font-weight: bold; text-align: center;'class='text-center align-middle'>Uploaded By</th>";
-    echo "<th style='width: 10%; font-weight: bold; text-align: center;'class='text-center align-middle'>Date Uploaded</th>";
-    echo "<th style='width: 15%; font-weight: bold; text-align: center;'class='text-center align-middle'>Type of Publication</th>";
-    echo "<th style='width: 10.5%; font-weight: bold; text-align: center;'class='text-center align-middle'>Status</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'class='text-center align-middle'>Action</th>";
-    echo "<th style='width: 20%; font-weight: bold; text-align: center;'class='text-center align-middle'>Comments</th>";
+    echo "<th style='width: 25%; font-weight: bold; text-align: center;' class='text-center align-middle'>File Name</th>";
+    echo "<th style='width: 15%; font-weight: bold; text-align: center;' class='text-center align-middle'>Uploaded By</th>";
+    echo "<th style='width: 10%; font-weight: bold; text-align: center;' class='text-center align-middle'>Date Uploaded</th>";
+    echo "<th style='width: 15%; font-weight: bold; text-align: center;' class='text-center align-middle'>Type of Publication</th>";
+    echo "<th style='width: 10.5%; font-weight: bold; text-align: center;' class='text-center align-middle'>Status</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;' class='text-center align-middle'>Action</th>";
+    echo "<th style='width: 20%; font-weight: bold; text-align: center;' class='text-center align-middle'>Comments</th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody id='file-table-body'>";
 
     while ($row = mysqli_fetch_assoc($res)) {
-        $color = '';
-        switch ($row['status']) {
-            case 'For review':
-                $color = 'red';
-                break;
-            case 'For revise':
-                $color = 'orange';
-                break;
-            case 'Published':
-                $color = 'blue';
-                break;
-            default:
-                // No specific color for other statuses
-                break;
-        }
-        echo "<tr>";
-        echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
-        echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
-        echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
-        echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
-        echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
-        echo "<td class='text-center align-middle' style='color: $color;'><b>" . $row['status'] . "</b></td>";
-        echo "<td class='text-center align-middle'>";
-        echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
-        echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
-        echo "</td>";
-        echo "<td class='text-center align-middle'>";
-        echo "<div class='position-relative d-inline-block'>";
-        echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
-        echo "<span class='comment-count badge badge-pill badge-primary' style='position: absolute; top: -8px; right: -8px; font-size: 75%;'>".getCommentCount($row['bid'])."</span>";
-        echo "</div>";
-        echo "</td>";
-        echo "</tr>";
+    $color = '';
+    switch ($row['status']) {
+        case 'For review':
+            $color = 'red';
+            break;
+        case 'For revise':
+            $color = 'orange';
+            break;
+        case 'Published':
+            $color = 'blue';
+            break;
+        default:
+            // No specific color for other statuses
+            break;
+    }
+    echo "<tr>";
+    echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
+    echo "<td class='text-center align-middle'><b>" . $row['type_of_publication'] . "</b></td>";
+    echo "<td class='text-center align-middle' style='color: $color;'><b>" . $row['status'] . "</b></td>";
+    echo "<td class='text-center align-middle'>";
+
+    if ($username === $row['author']) {
+        // Show the Edit button
+        echo "<a href='edit_files_employee.php?id=" . $row['bid'] . "' class='btn btn-warning mr-2'>Edit</a>";
+    }
+    
+    // Download and View buttons for all users
+    echo "<a href='view.php?id=" . $row['bid'] . "' class='btn btn-success'>View</a>";
+    echo "<a href='download.php?id=" . $row['bid'] . "' class='btn btn-primary mr-2'>Download</a>";
+
+    echo "</td>";
+
+    echo "<td class='text-center align-middle'>";
+    echo "<div class='position-relative d-inline-block'>";
+    echo "<a href='#commentModal' class='btn btn-success comment-btn' data-bid='" . $row['bid'] . "'>View</a>";
+    echo "<span class='comment-count badge badge-pill badge-primary' style='position: absolute; top: -8px; right: -8px; font-size: 75%;'>".getCommentCount($row['bid'])."</span>";
+    echo "</div>";
+    echo "</td>";
+    echo "</tr>";
     }
 
     echo "</tbody>";
     echo "</table>";
+
+
     echo "</div>";
 
     // Pagination indicators
@@ -244,7 +254,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <h5 class="modal-title">Comment</h5>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
-      <div class="modal-body" id="commentBody">
+      <div class="modal-body overflow-auto" id="commentBody">
         <!-- Comment content will be loaded here -->
       </div>
     </div>
@@ -253,6 +263,7 @@ if ($user_result && $user_result->num_rows > 0) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+
 $(document).ready(function(){
     // Use event delegation to handle click events for dynamically added elements
     $('#content').on('click', '.comment-btn', function(){

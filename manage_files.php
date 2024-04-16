@@ -55,7 +55,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="background-container"></div>
 
     <div id="topbar">
-        <h2>LibSys</h2>
+        <h2><a href="admin_dashboard.php">LibSys</a></h2>
         <div class="dropdown">
             <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
             <div class="dropdown-content">
@@ -64,6 +64,7 @@ if ($user_result && $user_result->num_rows > 0) {
             </div>
         </div>
     </div>
+
 
     <div id="sidebar">
     <div id="sidebar-content">
@@ -105,7 +106,6 @@ if ($user_result && $user_result->num_rows > 0) {
     echo "<table class='table table-bordered table-hover'>";
     echo "<thead class='thead-light'>";
     echo "<tr>";
-    echo "<th style='width: 5%; font-weight: bold; text-align: center;'class='text-center align-middle'>ID</th>";
     echo "<th style='width: 25%; font-weight: bold; text-align: center;'class='text-center align-middle'>File Name</th>";
     echo "<th style='width: 15%; font-weight: bold; text-align: center;'class='text-center align-middle'>Uploaded By</th>";
     echo "<th style='width: 10%; font-weight: bold; text-align: center;'class='text-center align-middle'>Date Uploaded</th>";
@@ -119,7 +119,6 @@ if ($user_result && $user_result->num_rows > 0) {
 
     while ($row = mysqli_fetch_assoc($res)) {
         echo "<tr>";
-        echo "<td class='text-center'><b class='small'>" . $row['bid'] . "</b></td>";
         echo "<td class='filename'><b>" . $row['name'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['author'] . "</b></td>";
         echo "<td class='text-center align-middle'><b>" . $row['year'] . "</b></td>";
@@ -137,11 +136,11 @@ if ($user_result && $user_result->num_rows > 0) {
         echo "<div class='dropdown'>";
         echo "<button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Actions</button>";
         echo "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
-        echo "<a class='dropdown-item' href='employee/edit_files.php?id=" . $row['bid'] . "'>Edit</a>";
+        echo "<a class='dropdown-item' href='employee/edit_files.php?id=" . $row['bid'] . "'>Rename</a>";
         echo "<a class='dropdown-item' href='delete_files.php?id=" . $row['bid'] . "'>Delete</a>";
         echo "<div class='dropdown-divider'></div>";
         echo "<a class='dropdown-item' href='employee/view.php?id=" . $row['bid'] . "'>View</a>";
-        echo "<a class='dropdown-item' href='employee/ownload.php?id=" . $row['bid'] . "'>Download</a>";
+        echo "<a class='dropdown-item' href='employee/download.php?id=" . $row['bid'] . "'>Download</a>";
         echo "</div>";
         echo "</div>";
         echo "</td>";
@@ -217,18 +216,30 @@ if ($user_result && $user_result->num_rows > 0) {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      
       <form id="commentForm" action="" method="post">
-          <div class="form-group">
-            <label for="comment">Comment:</label>
-            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+        <div class="modal-body w-100" style="max-height:250px; overflow: auto;">
+          <label for="comment">Previous Comment:</label>
+          <div id="commentBody">
+            <!-- Comment content will be loaded here -->
           </div>
+        </div>
+        <div class="form-group">
+          <label for="newComment">Add Comment:</label>
+          <textarea class="form-control" id="newComment" name="comment" rows="3" required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -238,13 +249,10 @@ $(document).ready(function() {
     $('#content').on('click', '.open-modal', function() {
         // Get the value of data-file-id attribute from the clicked button
         var fileId = $(this).data('file-id');
-        console.log("File ID:", fileId);
         // Update the action attribute of the form to include the file ID
         $('#commentForm').attr('action', 'add_comment.php?file_id=' + fileId);
     });
-});
 
-$(document).ready(function() {
     // Attach click event listener to search button
     $("#search-button").click(function() {
         // Retrieve selected filter criteria and search keyword
@@ -258,16 +266,15 @@ $(document).ready(function() {
             data: { filterBy: filterBy, searchInput: searchInput },
             success: function(response) {
                 // Update table with search results
-                $("#file-table-body").html(response);},
+                $("#file-table-body").html(response);
+            },
             error: function(xhr, status, error) {
                 // Handle error
                 console.error(error);
             }
         });
     });
-});
 
-$(document).ready(function() {
     $('.status-dropdown').change(function() {
         var status = $(this).val();
         var fileId = $(this).data('file-id');
@@ -277,8 +284,32 @@ $(document).ready(function() {
             method: 'POST',
             data: { status: status, fileId: fileId },
         });
+    }); 
+
+    // Function to fetch the most recent comment
+    function fetchRecentComment(fileId) {
+        $.ajax({
+            url: 'prev_comments.php', // Replace with your PHP script to fetch the comment
+            type: 'GET',
+            data: {
+                'file_id': fileId // Send the file-id as part of the request
+            },
+            success: function(response) {
+                // Update the modal body with the fetched comment data
+                $('#commentBody').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Event listener to trigger fetching the recent comment when the modal is shown
+    $('#content').on('click', '.open-modal', function() {
+        var fileId = $(this).data('file-id');
+        fetchRecentComment(fileId);
     });
-});     
+});
 </script>
 
 

@@ -48,17 +48,18 @@ if ($user_result && $user_result->num_rows > 0) {
 if(isset($_POST['submit'])) {
 
     $id = $_POST['user_id'];
+    $name = $_POST['name'];
     $username = $_POST['username'];
     $password1 = $_POST['password1'];
     $password2 = $_POST['password2'];
     $role = $_POST['role'];
 
     if ($password1 !== $password2) {
-        echo "Passwords do not match."; 
+        echo "<script>alert('Passwords do not match.');</script>";
     } else {
         // Update user details using prepared statement
-        $stmt = $conn->prepare("UPDATE users SET username=?, password=?, role=? WHERE user_id=?");
-        $stmt->bind_param("sssi", $username, $password1, $role, $id);
+        $stmt = $conn->prepare("UPDATE users SET name=?, username=?, password=?, role=? WHERE user_id=?");
+        $stmt->bind_param("ssssi", $name, $username, $password1, $role, $id);
         
         if ($stmt->execute()) {
             header("Location: manage_users.php");
@@ -86,7 +87,7 @@ if(isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit a User</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="add_users.css">
+    <link rel="stylesheet" href="css/manage_users.css">
 </head>
 <body>
 
@@ -117,6 +118,9 @@ if(isset($_GET['id'])) {
     <h2>Edit User</h2>
     <form action="" method="post" enctype="multipart/form-data">
         <input type="hidden" name="user_id" value="<?php echo $userDetails['user_id']; ?>">
+
+        <label for="">Name:</label>
+        <input type="text" name="name" required value="<?php echo $userDetails['name']; ?>">
 
         <label for="">Username:</label>
         <input type="text" name="username" required value="<?php echo $userDetails['username']; ?>">

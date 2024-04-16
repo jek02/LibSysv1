@@ -54,7 +54,7 @@ if ($user_result && $user_result->num_rows > 0) {
 <div id="background-container"></div>
 
 <div id="topbar">
-    <h2>LibSys</h2>
+    <h2><a href="admin_dashboard.php">LibSys</a></h2>
     <div class="dropdown">
         <img src="ICON-4.png" alt="Dropdown Icon" width="68" height="68">
         <div class="dropdown-content">
@@ -81,6 +81,7 @@ if ($user_result && $user_result->num_rows > 0) {
         <select class="form-control mr-2" id="filter-by" style="width: 40%;">
             <option value="catalog">Users Catalog</option>
             <option value="username">Username</option>
+            <option value="name">Name</option>
             <option value="role">Role</option>
         </select>
         <input type="text" class="form-control mr-2 shadow" id="search-input" placeholder="Search..." style="width: 200%;">
@@ -100,7 +101,7 @@ if ($user_result && $user_result->num_rows > 0) {
 
     echo "<table class='table table-bordered table-hover'>";
     echo "<tr style='background-color: #e9ecef;'>";
-    echo "<th>ID</th>";
+    echo "<th>Name</th>";
     echo "<th>Username</th>";
     echo "<th>Password</th>";
     echo "<th>Role</th>";
@@ -111,7 +112,7 @@ if ($user_result && $user_result->num_rows > 0) {
 
     while ($row = mysqli_fetch_assoc($res)) {
         echo "<tr style='background-color: white;'>";
-        echo "<td>" . $row['user_id'] . "</td>";
+        echo "<td>" . $row['name'] . "</td>";
         echo "<td>" . $row['username'] . "</td>";
         echo "<td>" . $row['password'] . "</td>";
         echo "<td>" . $row['role'] . "</td>";
